@@ -1,0 +1,62 @@
+<div class="edit-task-overlay">
+    <div class="edit-task-form">
+        <form [formGroup]="projectTaskForm" (ngSubmit)="onSubmit()">
+            <label for="projectId">Project ID:</label>
+            <input type="number" id="projectId" formControlName="projectId">
+            <span *ngIf="projectTaskForm.get('projectId')!.invalid && projectTaskForm.get('projectId')!.touched">
+                Project ID is required
+            </span>
+            <br>
+
+            <label for="projectTaskId">Project Task ID:</label>
+            <input type="number" id="projectTaskId" formControlName="projectTaskId">
+            <span
+                *ngIf="projectTaskForm.get('projectTaskId')!.invalid && projectTaskForm.get('projectTaskId')!.touched">
+                Project Task ID is required
+            </span>
+            <br>
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" formControlName="title">
+            <span *ngIf="projectTaskForm.get('title')!.invalid && projectTaskForm.get('title')!.touched">
+                Title is required
+            </span>
+            <br>
+
+            <label for="description">Description:</label>
+            <textarea id="description" formControlName="description"></textarea>
+            <span *ngIf="projectTaskForm.get('description')!.invalid && projectTaskForm.get('description')!.touched">
+                Description is required
+            </span>
+            <br>
+
+            <label for="status">Status:</label>
+            <select id="status" formControlName="status">
+                <option value="To do">To do</option>
+                <option value="In progress">In progress</option>
+                <option value="Done">Done</option>
+            </select>
+            <span *ngIf="projectTaskForm.get('status')!.invalid && projectTaskForm.get('status')!.touched">
+                Status is required
+            </span>
+            <br>
+
+            <label for="user">Assigned User:</label>
+            <select id="user" name="user">
+                <!-- <option *ngFor="let user of userList; let i = index" [value]="i">{{ user.name }}</option> -->
+            </select>
+            <br>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" formControlName="startDate">
+            <br>
+
+            <label for="dueDate">Due Date:</label>
+            <input type="date" id="dueDate" formControlName="dueDate">
+            <br>
+
+            <button type="submit" [disabled]="projectTaskForm.invalid">Submit</button>
+            <!-- <button type="button" (click)="closeEditTask()">Close</button> -->
+        </form>
+    </div>
+</div>

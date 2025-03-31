@@ -1,6 +1,6 @@
 import { taskRepository } from "../repositories/taskRepository";
 import { userRepository } from "../repositories/userRepository";
-import { Comment } from "../entities/comments";
+import { Comment } from "../entities/comment";
 import { commentRepository } from "../repositories/commentRepository";
 
 export class commentService {
@@ -20,7 +20,7 @@ export class commentService {
     }
 
     static async getCommentsByTaskId(taskId:number){
-        return await commentRepository.findOne({where : {task:{taskId}},relations:['tasks']});
+        return await commentRepository.find({where : {task:{taskId}},relations:['user']});
     }
 
     static async deleteComment(commentId: number): Promise<void> {

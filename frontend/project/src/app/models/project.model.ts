@@ -1,4 +1,4 @@
-import { Task } from "./task.model";
+import { User } from "./user.model";
 
 export interface Project{
     projectId:number;
@@ -7,7 +7,8 @@ export interface Project{
     status: "Not Started" | "Active" | "Completed";
     startDate?: Date;
     dueDate?: Date;
-    tasks?:Task[];  
+    userId:number;
+    user:User;
 }
 
 

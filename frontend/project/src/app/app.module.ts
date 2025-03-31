@@ -5,41 +5,24 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { ButtonModule } from 'primeng/button';
-import { ProfileComponent } from './component/profile/profile/profile.component';
-import { LogInComponent } from './component/profile/log-in/log-in.component';
-import { SignInComponent } from './component/profile/sign-in/sign-in.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { HomeComponent } from './component/home/home.component';
-import { MenubarModule } from 'primeng/menubar';
-import { DashboardComponent } from './component/dashboard/dashboard.component';
-import { ProjectDisplayComponent } from './component/dashboard/project-display/project-display.component';
-import { ProjectFormComponent } from './component/dashboard/project-form/project-form.component';
-import { ProjectTaskDisplayComponent } from './component/dashboard/project-task-display/project-task-display.component';
-import { ProjectTaskFormComponent } from './component/dashboard/project-task-form/project-task-form.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ProfileModule } from './modules/core_modules/profile/profile.module';
+import { DashboardModule } from './modules/feature_modules/dashboard/dashboard.module';
+import { HomeModule } from './home/home.module';
+import { SharedModule } from './modules/shared_modules/shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileComponent,
-    LogInComponent,
-    SignInComponent,
-    HomeComponent,
-    DashboardComponent,
-    ProjectDisplayComponent,
-    ProjectFormComponent,
-    ProjectTaskDisplayComponent,
-    ProjectTaskFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ButtonModule,
-    MenubarModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ProfileModule,
+    DashboardModule,
+    HomeModule,
+    SharedModule
   ],
   providers: [
     provideAnimationsAsync(),

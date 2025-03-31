@@ -1,21 +1,31 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { Project } from './project';
-import { Comment } from './comments';
+import { Comment } from './comment';
 import { User } from './user';
+import { TaskPriority, TaskStatus } from './enum.model';
 
-@Entity('Task_11')
+@Entity('Task_13')
 export class Task {
   @PrimaryGeneratedColumn()
   taskId: number;
 
-  @Column()
+  @Column({type:'varchar',length:30})
   title: string;
 
-  @Column()
+  @Column({type:'varchar'})
   description: string;
 
-  @Column()
-  status: string;
+  @Column({
+    type: 'varchar',
+    default: TaskPriority.MEDIUM,
+  })
+  priority: TaskPriority;
+
+  @Column({
+    type: 'varchar',
+    default: TaskStatus.TO_DO,
+  })
+  status: TaskStatus;
 
   @Column({ type: 'date', nullable: true })
   startDate?: Date;
@@ -27,7 +37,7 @@ export class Task {
   @JoinColumn({name:'projectId'})
   project: Project;
 
-  @ManyToOne(()=>User,user=>user.tasks,{onDelete:'CASCADE'})
+  @ManyToOne(()=>User,user=>user.tasks)
   @JoinColumn({name:'userId'})
   user:User
 

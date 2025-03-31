@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SignInComponent } from './component/profile/sign-in/sign-in.component';
-import { LogInComponent } from './component/profile/log-in/log-in.component';
-import { ProfileComponent } from './component/profile/profile/profile.component';
-import { HomeComponent } from './component/home/home.component';
-import { DashboardComponent } from './component/dashboard/dashboard.component';
-import { ProjectFormComponent } from './component/dashboard/project-form/project-form.component';
+import { HomeComponent } from './home/home.component';
+import { SignInComponent } from './modules/core_modules/profile/sign-in/sign-in.component';
+import { LogInComponent } from './modules/core_modules/profile/log-in/log-in.component';
+import { ProfileComponent } from './modules/core_modules/profile/profile/profile.component';
+import { DashboardComponent } from './modules/feature_modules/dashboard/dashboard.component';
+import { ProjectFormComponent } from './modules/feature_modules/dashboard/project-form/project-form.component';
+
+
 
 
 const routes: Routes = [
@@ -21,4 +23,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

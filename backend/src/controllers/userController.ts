@@ -4,10 +4,20 @@ import bcrypt from 'bcrypt';
 
 export class userController {
 
-    static async getUser(req: Request, res: Response) {
+    static async getUsersByRole(req: Request, res: Response) {
+        const role=req.params.role;
         try {
-            const {name,email} = req.body;
-            const user = await userService.getUser(name,email);
+            const user = await userService.getUsersByRole(role);
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(400).json(error);
+        }
+    }
+
+    static async getUsersById(req: Request, res: Response) {
+        const userId=parseInt(req.params.id);
+        try {
+            const user = await userService.getUserById(userId);
             res.status(200).json(user);
         } catch (error) {
             res.status(400).json(error);
@@ -16,8 +26,8 @@ export class userController {
 
     static async getAllUsers(req: Request, res: Response) {
         try {
-            const user = await userService.getAllUsers();
-            res.status(200).json(user);
+            const users= await userService.getAllUsers();
+            res.status(200).json(users);
         } catch (error) {
             res.status(400).json(error);
         }

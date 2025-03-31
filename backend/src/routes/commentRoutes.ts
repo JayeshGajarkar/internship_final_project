@@ -3,7 +3,7 @@ import { CommentController } from "../controllers/commetController";
 
 const commentRouter=Router()
 
-commentRouter.post('/addComment/:taskId/:userId',CommentController.addComment);
+commentRouter.post('/add/:taskId/:userId',CommentController.addComment);
 commentRouter.delete('/delete/:id',CommentController.deleteComment)
 commentRouter.get('/get/:taskId',CommentController.getCommentsByTaskId)
 

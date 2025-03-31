@@ -4,8 +4,9 @@ import { Request, Response } from "express";
 export class projectController {
     static async addProject(req: Request, res: Response) {
         try {
-            const projectData = req.body;
-            await projectService.addProject(projectData);
+            const userId=parseInt(req.body.userId)
+            const project = req.body;
+            await projectService.addProject(project,userId);
             res.status(201).json({message:"Project added sucessfully"});
         } catch (error) {
             console.log(error)
@@ -47,9 +48,10 @@ export class projectController {
 
     static async updateProject(req: Request, res: Response) {
         try {
+            const userId=parseInt(req.body.userId)
             const projectId = parseInt(req.params.id, 10);
             const projectData = req.body;
-            await projectService.updateProject(projectId, projectData);
+            await projectService.updateProject(projectId,userId,projectData);
             res.status(200).json("Project updated sucessfully !");
         } catch (error) {
             console.log(error);

@@ -1,0 +1,35 @@
+<div *ngIf="!showTaskEnable">
+    <div *ngFor="let project of projectList" class="project-card">
+        <h1>Project:{{project.projectId}}</h1>
+        <h3 class="project-title">{{ project.projectName }}</h3>
+        <p class="project-description"><strong>Description:</strong> {{ project.description }}</p>
+        <p class="project-status"><strong>Status:</strong> {{ project.status }}</p>
+        <p *ngIf="project.startDate" class="project-dates"><strong>Start Date:</strong> {{ project.startDate | date }} </p>
+        <p *ngIf="project.dueDate" class="project-dates"><strong>Due Date:</strong> {{ project.dueDate | date }}</p>
+        <p>Assigned User: <b>Name:</b> {{project.user.name}} <b>Email:</b>{{project.user.email}}</p>
+        <button (click)="editProject(project)">Edit</button>
+        <button (click)="deleteProject(project.projectId)">Delete</button>
+        <button (click)="showTasks(project.projectId)">Show Tasks</button>
+        <button (click)="addTask(project.projectId)">Add Task</button>
+        <hr>
+    </div>
+</div>
+
+
+<!-- Contianer to edit the Project -->
+<div *ngIf="editModeEnable">
+    <app-project-form [Project]="project" (CloseProjectEditEvent)="closeEditForm()"></app-project-form>
+</div>
+
+
+<!-- Container to Show tasks -->
+<div *ngIf="showTaskEnable">
+    <h1>Tasks</h1>
+    <app-project-task-display [projectId]="projectId"></app-project-task-display>
+    <button (click)="closeShowTask()">Close</button>
+</div>
+
+<!-- Container to add Task -->
+<div *ngIf="addTaskEnable">
+    <app-project-task-form [projectId]="projectId" (closeTaskFormEvent)="closeAddTask()"></app-project-task-form>
+</div>

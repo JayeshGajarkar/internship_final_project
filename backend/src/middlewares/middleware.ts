@@ -22,7 +22,7 @@ export class AuthService {
     }
   }
 
-  static async generateToken(req: Request, res: Response) {
+  static async LogIn(req: Request, res: Response) {
     const { name, email, password } = req.body;
     const user = await userService.getUser(name, email);
 
@@ -39,6 +39,6 @@ export class AuthService {
     }
 
     const token = jwt.sign({ userId: user.id, role: user.role }, secretKey, { expiresIn: '1h' });
-    res.status(201).json({ token: token }); 
+    res.status(201).json({ token: token, user:user}); 
   }
 }

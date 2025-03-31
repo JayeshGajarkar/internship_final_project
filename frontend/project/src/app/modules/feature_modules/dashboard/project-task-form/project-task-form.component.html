@@ -1,0 +1,59 @@
+<div class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="close()">&times;</span>
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <label for="title">Title:</label>
+      <input type="text" id="title" formControlName="title">
+      <span *ngIf="taskForm.get('title')!.invalid && taskForm.get('title')!.touched">
+        Title is required
+      </span>
+      <br>
+
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description"></textarea>
+      <span *ngIf="taskForm.get('description')!.invalid && taskForm.get('description')!.touched">
+        Description is required
+      </span>
+      <br>
+
+      <label for="priority">priority:</label>
+      <select id="priority" formControlName="priority">
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <span *ngIf="taskForm.get('priority')!.invalid && taskForm.get('priority')!.touched">
+        Priority is required
+      </span>
+      <br>
+
+      <label for="status">Status:</label>
+      <select id="status" formControlName="status">
+        <option value="To do">To do</option>
+        <option value="In progress">In progress</option>
+        <option value="Done">Done</option>
+      </select>
+      <span *ngIf="taskForm.get('status')!.invalid && taskForm.get('status')!.touched">
+        Status is required
+      </span>
+      <br>
+
+      <label for="user">Assigned User:</label>
+      <select id="user" name="user" formControlName="userId">
+        <option *ngFor="let user of userList" [value]="user.userId"><b>{{user.userId}}.</b>{{ user.name }} [{{user.role}}]</option>
+      </select>
+      <br>
+
+      <label for="startDate">Start Date:</label>
+      <input type="date" id="startDate" formControlName="startDate">
+      <br>
+
+      <label for="dueDate">Due Date:</label>
+      <input type="date" id="dueDate" formControlName="dueDate">
+      <br>
+
+      <button type="submit" [disabled]="taskForm.invalid">Submit</button>
+      <!-- <button type="button" (click)="closeEditTask()">Close</button> -->
+    </form>
+  </div>
+</div>

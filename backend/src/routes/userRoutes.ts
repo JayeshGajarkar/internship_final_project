@@ -4,10 +4,12 @@ import { AuthService } from "../middlewares/middleware";
 
 const userRouter = Router();
 
-userRouter.get("/:id",userController.getUser);
-userRouter.get('/',AuthService.authenticateJWT,userController.getAllUsers);
+
+userRouter.get("/get/:id",userController.getUsersById);
+userRouter.get("/:role",userController.getUsersByRole);
+userRouter.get('/all',userController.getAllUsers);
 userRouter.post("/signIn",userController.addUser);
-userRouter.post("/logIn",AuthService.generateToken);
+userRouter.post("/logIn",AuthService.LogIn);
 
 
 export default userRouter;

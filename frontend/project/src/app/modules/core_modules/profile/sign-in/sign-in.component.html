@@ -1,0 +1,32 @@
+<form [formGroup]="singUpForm" (ngSubmit)="onSubmit()">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" formControlName="name">
+    <span *ngIf="singUpForm.get('name')!.invalid && singUpForm.get('name')!.touched">
+        Name is required
+    </span>
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" formControlName="email">
+    <span *ngIf="singUpForm.get('email')!.invalid && singUpForm.get('email')!.touched">
+        Email is required
+    </span>
+    <br>
+    <label for="role">Role:</label>
+    <select id="role" name="role" formControlName="role">
+        <option value="Admin">Admin</option>
+        <option value="Manager">Manager</option>
+        <option value="Employee">Employee</option>
+    </select>
+    <span *ngIf="singUpForm.get('role')!.invalid && singUpForm.get('role')!.touched">
+        Role is required
+    </span>
+    <br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" formControlName="password">
+    <span *ngIf="singUpForm.get('password')!.invalid && singUpForm.get('password')!.touched">
+        Password is required and must be at least 6 characters long
+    </span>
+    <br>
+    <button type="submit" [disabled]="singUpForm.invalid">Submit</button>
+</form>

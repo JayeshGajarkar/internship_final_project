@@ -4,14 +4,15 @@ import { Task } from '../entities/task';
 
 export class taskController {
     static async addTask(req: Request, res: Response): Promise<void> {
-        const projectId  = parseInt(req.params.userId);
-        const userId  = parseInt(req.params.projectId);
+        const userId  = parseInt(req.body.userId);
+        const projectId  = parseInt(req.params.projectId);
         const task: Task = req.body;
         try {
             await taskServices.addTask(projectId, userId, task);
-            res.status(201).send('Task added successfully');
+            res.status(201).json({message:"Task added sucessfully"});
         } catch (error) {
-            res.status(400).send(error.message);
+            console.log(error);
+            res.status(500).json({ message: error.message });
         }
     }
 
@@ -19,30 +20,34 @@ export class taskController {
         const taskId =parseInt(req.params.id);
         try {
             await taskServices.deleteTask(taskId);
-            res.status(200).send('Task deleted successfully');
+            res.status(201).json({message:"Task deleted successfully"});
         } catch (error) {
-            res.status(404).send(error.message);
+            console.log(error);
+            res.status(500).json({ message: error.message });
         }
     }
 
     static async updateTask(req: Request, res: Response): Promise<void> {
         const taskId = parseInt(req.params.id);
         const newTask: Task = req.body;
+        const userId=parseInt(req.body.userId);
         try {
-            await taskServices.updateTask(taskId, newTask);
-            res.status(200).send('Task updated successfully');
+            await taskServices.updateTask(userId,taskId, newTask);
+            res.status(201).json({message:"Task updated successfully"});
         } catch (error) {
-            res.status(404).send(error.message);
+            console.log(error);
+            res.status(500).json({ message: error.message });
         }
     }
 
     static async getTaskByProjectId(req: Request, res: Response): Promise<void> {
-        const projectId = req.params.id;
+        const projectId = parseInt(req.params.id);
         try {
-            const tasks = await taskServices.getTaskByProjectId(Number(projectId));
+            const tasks = await taskServices.getTaskByProjectId(projectId);
             res.status(200).json(tasks);
         } catch (error) {
-            res.status(404).send(error.message);
+            console.log(error);
+            res.status(500).json({ message: error.message });
         }
     }
 }

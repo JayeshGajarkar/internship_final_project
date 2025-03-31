@@ -1,0 +1,15 @@
+<header>
+    <nav class="navbar">
+        <a routerLink="/home">Home</a>
+        <a routerLink="/addProject">Add Project</a>
+        <a routerLink="/dashboard">Dashboard</a>
+        <div *ngIf="!isLoggedIn">
+            <a routerLink="/signIn">Sign In</a>
+            <a routerLink="/logIn">Log In</a>
+        </div>
+        <div *ngIf="isLoggedIn">
+            <a routerLink="/profile">Profile</a>
+            <button (click)="logOut()">Log Out</button>
+        </div>
+    </nav>
+</header>

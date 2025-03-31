@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { User} from "../entities/user";
 import { Project } from "../entities/project";
 import { Task } from "../entities/task";
-import { Comment } from "../entities/comments";
+import { Comment } from "../entities/comment";
 
 export const AppDataSource = new DataSource({
     type:'mssql',
@@ -11,8 +11,8 @@ export const AppDataSource = new DataSource({
     port:1982,
     username:'j2',
     password:'123456',
-    database:'JIBE_MAIN_TRAINING',
-    synchronize:false,
+    database:'JIBE_Main_Training',
+    synchronize:true,
     entities: [User,Project,Task,Comment],
     options:{
         encrypt:true,

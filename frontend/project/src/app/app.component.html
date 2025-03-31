@@ -1,14 +1,3 @@
-<nav class="navbar">
-  <a routerLink="/home">Home</a>
-  <a routerLink="/addProject">AddProject</a>
-  <a routerLink="/dashboard">Dashboard</a>
-  <div *ngIf="!isLoggedIn">
-    <a routerLink="/signIn">signIn</a>
-    <a routerLink="/logIn">logIn</a>
-  </div>
-  <div *ngIf="isLoggedIn">
-    <a routerLink="/profile">Profile</a>
-    <button (click)="logOut()">logOut</button>
-  </div>
-</nav>
+<app-header></app-header>
 <router-outlet></router-outlet>
+<!-- <app-footer></app-footer> -->

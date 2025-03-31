@@ -1,0 +1,25 @@
+<div *ngFor="let task of taskList" class="task-details">
+    <h2>Task Details</h2>
+    <p><strong>Project Task ID:</strong> {{ task.taskId }}</p>
+    <p><strong>Title:</strong> {{ task.title }}</p>
+    <p><strong>Description:</strong> {{ task.description }}</p>
+    <p><strong>Priority:</strong> {{ task.priority }}</p>
+    <p><strong>Status:</strong> {{ task.status }}</p>
+    <p><strong>Start Date:</strong> {{ task.startDate | date:'longDate' }}</p>
+    <p><strong>Due Date:</strong> {{ task.dueDate | date:'longDate' }}</p>
+    <p>Assigned User: <b>Name:</b> {{task.user?.name}} <b>Email:</b>{{task.user?.email}}</p>
+    <!-- <button (click)="deleteTask(task.projectTaskId)">Delete</button> -->
+    <button (click)="editTask(task)">Edit</button>
+    <button (click)="deleteTask(task.taskId)">Delete</button>
+    <button (click)="showComment(task.taskId)">Comment</button>
+</div>
+
+<div *ngIf="editTaskEnable" class="comment">
+    <app-project-task-form (closeTaskFormEvent)="closeEditTask()" [task]="task"></app-project-task-form>
+</div>
+
+
+<div *ngIf="showCommentsEnable">
+    <button (click)="closeComment()" class="close-button">&times;</button>
+    <app-comment [taskId]="taskId"></app-comment>
+</div>

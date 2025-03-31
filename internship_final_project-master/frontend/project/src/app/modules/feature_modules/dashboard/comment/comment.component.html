@@ -1,0 +1,18 @@
+<div class="comment-drawer" *ngIf="taskId">
+    <h3>Comments</h3>
+    <ul>
+        <li *ngFor="let comment of comments" [ngClass]="{'comment-item': true, 'current-user': comment.user.userId === currentUser?.userId}">
+            <span class="profile-icon">👤</span>
+            <p><b>{{comment.user.userId}}.</b> <b>{{comment.user.name}}:</b>  </p>
+            {{ comment.commentText }}
+        </li>
+    </ul>
+
+    <form #commentForm="ngForm" (ngSubmit)="onSubmit(commentForm)">
+        <label for="commentText">Comment:</label>
+        <input id="commentText" name="commentText" [(ngModel)]="commentText" required>
+        <button type="submit">Add Comment</button>
+    </form>
+    
+</div>
+

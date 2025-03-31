@@ -1,0 +1,30 @@
+<div class="profile-container" *ngIf="currUser">
+    <div class="profile-header">
+        <h2>Your Profile</h2>
+    </div>
+
+    <div class="profile-info">
+        <div class="profile-item">
+            <label for="name">Full Name:</label>
+            <p>{{ currUser.name }}</p>
+        </div>
+
+        <div class="profile-item">
+            <label for="email">Email:</label>
+            <p>{{ currUser.email }}</p>
+        </div>
+
+        <div class="profile-item">
+            <label for="role">Role:</label>
+            <p>{{ currUser.role }}</p>
+        </div>
+    </div>
+
+    <div class="profile-actions">
+        <button class="edit-btn" (click)="editProfile()">Edit Profile</button>
+    </div>
+</div>
+
+<div *ngIf="!currUser" class="no-user">
+    <p>No user is currently logged in.</p>
+</div>

@@ -1,0 +1,69 @@
+<div class="modal-content">
+  <span class="close" (click)="close()">&times;</span>
+  <h2>{{ task ? 'Edit Task' : 'Create New Task' }}</h2>
+
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" id="title" formControlName="title" placeholder="Enter task title">
+          <div *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched" class="error-message">
+              Title is required
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea id="description" formControlName="description" placeholder="Enter task description"></textarea>
+          <div *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched" class="error-message">
+              Description is required
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="priority">Priority:</label>
+          <select id="priority" formControlName="priority">
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+          </select>
+          <div *ngIf="taskForm.get('priority')?.invalid && taskForm.get('priority')?.touched" class="error-message">
+              Priority is required
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="status">Status:</label>
+          <select id="status" formControlName="status">
+              <option value="To do">To do</option>
+              <option value="In progress">In progress</option>
+              <option value="Done">Done</option>
+          </select>
+          <div *ngIf="taskForm.get('status')?.invalid && taskForm.get('status')?.touched" class="error-message">
+              Status is required
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="user">Assigned User:</label>
+          <select id="user" formControlName="userId">
+              <option *ngFor="let user of userList" [value]="user.userId">{{ user.name }} ({{ user.role }})</option>
+          </select>
+      </div>
+
+      <div class="form-group">
+          <label for="startDate">Start Date:</label>
+          <input type="date" id="startDate" formControlName="startDate">
+      </div>
+
+      <div class="form-group">
+          <label for="dueDate">Due Date:</label>
+          <input type="date" id="dueDate" formControlName="dueDate">
+      </div>
+
+      <div class="form-actions">
+          <button type="submit" [disabled]="taskForm.invalid" class="submit-btn">
+              {{ task ? 'Update Task' : 'Create Task' }}
+          </button>
+      </div>
+  </form>
+</div>

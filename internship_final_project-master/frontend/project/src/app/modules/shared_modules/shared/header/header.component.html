@@ -1,0 +1,22 @@
+<header>
+    <nav class="navbar">
+        <!-- Logo and Home Link -->
+        <a class="logo" routerLink="/home">Project Management</a>
+
+        <!-- Navigation Links -->
+        <div class="nav-links">
+            <a routerLink="/addProject">Add Project</a>
+            <a routerLink="/dashboard">Dashboard</a>
+            
+            <!-- Conditional Links based on Login Status -->
+            <div *ngIf="!isLoggedIn">
+                <a routerLink="/signIn">Sign In</a>
+                <a routerLink="/logIn">Log In</a>
+            </div>
+            <div *ngIf="isLoggedIn">
+                <a routerLink="/profile">Profile</a>
+                <button (click)="logOut()">Log Out</button>
+            </div>
+        </div>
+    </nav>
+</header>

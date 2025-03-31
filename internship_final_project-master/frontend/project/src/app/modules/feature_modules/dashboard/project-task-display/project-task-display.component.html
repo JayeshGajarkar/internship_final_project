@@ -1,0 +1,26 @@
+<div class="task-container">
+    <h2 class="section-title">Project Task Details</h2>
+    
+    <div *ngFor="let task of taskList" class="task-card">
+        <div class="task-header">
+            <h3>{{ task.title }}</h3>
+            <span class="task-status" [ngClass]="{'high': task.priority === 'High', 'medium': task.priority === 'Medium', 'low': task.priority === 'Low'}">
+                {{ task.priority }}
+            </span>
+        </div>
+
+        <div class="task-details">
+            <p><strong>Task ID:</strong> {{ task.taskId }}</p>
+            <p><strong>Status:</strong> {{ task.status }}</p>
+            <p><strong>Start Date:</strong> {{ task.startDate | date:'longDate' }}</p>
+            <p><strong>Due Date:</strong> {{ task.dueDate | date:'longDate' }}</p>
+            <p><strong>Assigned User:</strong> <b>{{ task.user?.name }}</b></p>
+        </div>
+
+        <div class="task-actions">
+            <button class="edit-btn" (click)="editTask(task)">Edit</button>
+            <button class="delete-btn" (click)="deleteTask(task.taskId)">Delete</button>
+            <button class="comment-btn" (click)="showComment(task.taskId)">View Comments</button>
+        </div>
+    </div>
+</div>

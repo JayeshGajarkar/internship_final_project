@@ -1,0 +1,107 @@
+.task-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.task-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+.task-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.task-header h3 {
+    font-size: 1.6rem;
+    color: #333;
+}
+
+.task-status {
+    padding: 5px 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.task-status.high {
+    background-color: #e74c3c;
+}
+
+.task-status.medium {
+    background-color: #f39c12;
+}
+
+.task-status.low {
+    background-color: #2ecc71;
+}
+
+.task-details p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+}
+
+.task-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-btn {
+    background-color: #5bc0de;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #31b0d5;
+}
+
+.delete-btn {
+    background-color: #d9534f;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c9302c;
+}
+
+.comment-btn {
+    background-color: #f39c12;
+    color: white;
+}
+
+.comment-btn:hover {
+    background-color: #e67e22;
+}

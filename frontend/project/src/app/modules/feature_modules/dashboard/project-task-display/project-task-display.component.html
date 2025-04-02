@@ -14,7 +14,7 @@
     <button (click)="showComment(task.taskId)">Comment</button>
 </div>
 
-<div *ngIf="editTaskEnable" class="comment">
+<div *ngIf="editTaskEnable">
     <app-project-task-form (closeTaskFormEvent)="closeEditTask()" [task]="task"></app-project-task-form>
 </div>
 

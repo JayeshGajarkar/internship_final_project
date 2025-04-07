@@ -1,0 +1,108 @@
+/* Task Container */
+.task-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .task-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  /* Task Grid */
+  .task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  /* Task Card */
+  .task-card {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+  }
+  
+  .task-card h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #007bff;
+  }
+  
+  .task-card p {
+    margin: 10px 0;
+    font-size: 1em;
+  }
+  
+  .task-card strong {
+    color: #333;
+  }
+  
+  /* Status Styles */
+  .task-card.to-do {
+    border: 3px solid #ff1500; /* Yellow for To do */
+  }
+  
+  .task-card.in-progress {
+    border: 3px solid #007bff; /* Blue for In progress */
+  }
+  
+  .task-card.done {
+    border: 3px solid #1dc444; /* Green for Completed */
+  }
+  
+  /* Status Dropdown */
+  .status-dropdown {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 1em;
+    color: #333;
+    transition: background-color 0.3s ease;
+  }
+  
+  .status-dropdown:focus {
+    background-color: #f1f1f1;
+    outline: none;
+  }
+  
+  /* Edit Button */
+  .edit-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .edit-btn:hover {
+    background-color: #0056b3;
+  }
+
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+  }
+
+  .no h2 {
+    color: red;
+  }
+  
+  

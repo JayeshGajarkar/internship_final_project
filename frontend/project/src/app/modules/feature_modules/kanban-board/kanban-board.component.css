@@ -1,0 +1,109 @@
+/* Kanban board container */
+
+h1{
+    text-align: center;
+}
+
+.button {
+    display: inline-block;
+}
+
+.kanban-board {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+    position: absolute;
+    z-index: 1;
+    top: 9%;
+    left: 65%;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.viewChart{
+    position: absolute;
+    z-index: 1;
+    top: 9%;
+    left: 70%;
+    background-color: #0deb3d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+/* Kanban columns */
+.kanban-column {
+    width: 30%;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.kanban-column h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Kanban tasks */
+.kanban-task {
+    background-color: #e0e0e0;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.kanban-task h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.kanban-task p {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Task status colors */
+.to-do {
+    border-left: 5px solid #3498db;
+}
+
+.in-progress {
+    border-left: 5px solid #f1c40f;
+}
+
+.done {
+    border-left: 5px solid #2ecc71;
+}
+
+
+.not {
+    position: fixed;
+    top:50%;
+    left:40%;
+    color: red;
+}
+
+
+
+

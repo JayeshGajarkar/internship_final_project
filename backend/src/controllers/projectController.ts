@@ -35,11 +35,33 @@ export class projectController {
         }
     }
 
+    static async getAllProjectsByManager(req: Request, res: Response) {
+        const userId=parseInt(req.params.id)
+        try {
+            const projects = await projectService.getAllProjectsByManager(userId);
+            res.status(200).json(projects);
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    static async getAllProjectsByEmployee(req: Request, res: Response) {
+        const userId=parseInt(req.params.id)
+        try {
+            const projects = await projectService.getAllProjectsByEmployee(userId);
+            res.status(200).json(projects);
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ message: error.message });
+        }
+    }
+
     static async deleteProject(req: Request, res: Response) {
         try {
             const projectId = parseInt(req.params.id, 10);
             await projectService.deleteProject(projectId);
-            res.status(201).json("Project deleted sucessfully");
+            res.status(200).json({message:"Project deleted sucessfully"});
         } catch (error) {
             console.log(error)
             res.status(500).json({ message: error.message });
@@ -52,7 +74,7 @@ export class projectController {
             const projectId = parseInt(req.params.id, 10);
             const projectData = req.body;
             await projectService.updateProject(projectId,userId,projectData);
-            res.status(200).json("Project updated sucessfully !");
+            res.status(200).json({message:"Project updated sucessfully"});
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: error.message });

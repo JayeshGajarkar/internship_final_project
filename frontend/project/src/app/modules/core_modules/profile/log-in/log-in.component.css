@@ -1,43 +1,100 @@
-/* registration.component.css */
-form {
-    max-width: 400px;
-    margin: 0 auto;
-    margin-top: 10%;
-    padding: 1em;
-    border: 1px solid #ccc;
-    border-radius: 1em;
-    background-color: #f9f9f9;
-  }
-  
-  label {
-    margin-top: 1em;
-    display: block;
-    font-weight: bold;
-  }
-  
-  input,select{
-    width: 100%;
-    padding: 0.5em;
-    margin-top: 0.5em;
-    border: 1px solid #ccc;
-    border-radius: 0.5em;
-  }
-  
-  span {
-    color: red;
-    font-size: 0.9em;
-  }
-  
-  button {
-    margin-top: 1em;
-    padding: 0.7em;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 0.5em;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
+/* Login container to center the form */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f7fc;
+}
+
+/* Form styling */
+.login-form {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Title for the login form */
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Form group for each input field */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Label styling */
+label {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Input fields styling */
+input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  margin-bottom: 5px;
+}
+
+input:focus {
+  border-color: #3498db;
+}
+
+/* Error messages */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Button styling */
+button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  width: 100%;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* Additional links at the bottom of the form */
+.additional-links {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.additional-links a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.additional-links a:hover {
+  text-decoration: underline;
+}

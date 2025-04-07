@@ -17,4 +17,16 @@ export class CommentService {
   addComment(comment:Comment,taskId:number,userId:number):Observable<any>{
     return this.http.post(`http://localhost:3000/comment/add/${taskId}/${userId}`,comment)
   }
+
+  deleteComment(commentId:number):Observable<any> {
+    return this.http.delete(`http://localhost:3000/comment/delete/${commentId}`)
+  }
+
+  sendFile(taskId:number,userId:number,fileData:FormData):Observable<any>{
+    return this.http.post(`http://localhost:3000/file/upload/${taskId}/${userId}`,fileData)
+  }
+
+  downloadFile(fileName:string):Observable<any>{
+    return this.http.get(`http://localhost:3000/file/download/${fileName}`,{ responseType: 'blob'});
+  }
 }

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Project } from '../../../../models/project.model';
 import { User } from '../../../../models/user.model';
 import { AuthService } from '../../../shared_modules/services/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-project-form',
@@ -27,7 +28,7 @@ export class ProjectFormComponent implements OnChanges,OnInit {
     userId:new FormControl(0,Validators.required),
   });
 
-  constructor(private projectService:ProjectService,private router:Router,private authService:AuthService){}
+  constructor(private projectService:ProjectService,private router:Router,private authService:AuthService,private messageService:MessageService){}
 
   ngOnInit(){
     this.authService.getUserByRole("Manager").subscribe({
@@ -37,7 +38,7 @@ export class ProjectFormComponent implements OnChanges,OnInit {
         }
       },error:(err)=>{
         console.log(err);
-        alert(err.message);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
       }
     })
   }
@@ -61,12 +62,14 @@ export class ProjectFormComponent implements OnChanges,OnInit {
       this.projectService.updateProject(this.projectForm.value as Project,this.Project.projectId).subscribe({
         next:(data)=>{
           if(data){
-            alert(data);
-            this.close(); //navigate dashboard and cole the form
+            // alert(data);
+            this.messageService.add({ severity: 'info', summary: 'Info', detail: `${data.message}` })
+            this.close(); //navigate dashboard and close the form
           }
         },error:(err)=>{
           console.log(err);
-          alert(err.message);
+          // alert(err.message);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
         }
       });
     }else{
@@ -74,12 +77,12 @@ export class ProjectFormComponent implements OnChanges,OnInit {
       this.projectService.addProject(this.projectForm.value as Project).subscribe({
         next:(data)=>{
           if(data){
-            alert(data.message)
-            this.close(); //naviagte dashbord and close the form
+            this.messageService.add({ severity: 'info', summary: 'Info', detail: `${data.message}` })
+            this.close(); 
           }
         },error:(err)=>{
           console.log(err);
-          alert(err.message);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
         }
       });
       this.projectForm.reset()
@@ -88,7 +91,6 @@ export class ProjectFormComponent implements OnChanges,OnInit {
 
   close(){
     this.CloseProjectEditEvent.emit();
-    this.router.navigate(['/dashboard']);
   }
 }
 

@@ -23,8 +23,8 @@ export class AuthService {
   }
 
   static async LogIn(req: Request, res: Response) {
-    const { name, email, password } = req.body;
-    const user = await userService.getUser(name, email);
+    const { email, password } = req.body;
+    const user = await userService.getUser(email);
 
     if (!user) {
       res.status(401).json({ message: 'Invalid email or password' });
@@ -38,7 +38,7 @@ export class AuthService {
       return;
     }
 
-    const token = jwt.sign({ userId: user.id, role: user.role }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.userId, role: user.role }, secretKey, { expiresIn: '1h' });
     res.status(201).json({ token: token, user:user}); 
   }
 }

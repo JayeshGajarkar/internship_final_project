@@ -50,4 +50,15 @@ export class taskController {
             res.status(500).json({ message: error.message });
         }
     }
+
+    static async getTaskByUserId(req: Request, res: Response): Promise<void> {
+        const userId = parseInt(req.params.id);
+        try {
+            const tasks = await taskServices.getTaskByUserId(userId);
+            res.status(200).json(tasks);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: error.message });
+        }
+    }
 }

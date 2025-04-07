@@ -9,8 +9,7 @@ export enum Status {
   PENDING = 'pending'
 }
 
-
-@Entity('Project_13')
+@Entity('Project_14')
 export class Project {
   @PrimaryGeneratedColumn()
   projectId: number;
@@ -18,7 +17,7 @@ export class Project {
   @Column({ type: 'varchar', length: 30 })
   projectName: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'text' })
   description: string;
 
   @Column({
@@ -35,7 +34,7 @@ export class Project {
 
   @ManyToOne(() => User, user => user.projects)
   @JoinColumn({ name: 'userId' })
-  user: User
+  user: User;
 
   @OneToMany(() => Task, task => task.project, { cascade: true })
   tasks: Task[];

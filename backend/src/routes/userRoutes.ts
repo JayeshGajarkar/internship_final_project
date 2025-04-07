@@ -5,9 +5,13 @@ import { AuthService } from "../middlewares/middleware";
 const userRouter = Router();
 
 
-userRouter.get("/get/:id",userController.getUsersById);
+userRouter.put("/update/:id",userController.updateUser);
 userRouter.get("/:role",userController.getUsersByRole);
-userRouter.get('/all',userController.getAllUsers);
+userRouter.get('/get/all',userController.getAllUsers);
+userRouter.post("/sendOtpForSignUp",userController.sendOtpForSignUp);
+userRouter.post("/sendOtpForPassword",userController.sendOtpForPassword)
+userRouter.post("/verifyOtp",userController.verifyOtp);
+userRouter.put("/changePassword",userController.changePassword);
 userRouter.post("/signIn",userController.addUser);
 userRouter.post("/logIn",AuthService.LogIn);
 

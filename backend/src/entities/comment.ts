@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Timestam
 import { Task } from './task';
 import { User } from './user';
 
-@Entity('Comment_13')
+@Entity('Comment_14')
 export class Comment {
   @PrimaryGeneratedColumn()
   commentId: number;

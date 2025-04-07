@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   position: fixed;
-  z-index: 1;
+  z-index: 5;
   left: 0;
   top: 0;
   width: 100%;
@@ -38,12 +38,12 @@
   transition: color 0.3s ease; /* Smooth color transition */
 }
 
-.close:hover,
 .close:focus {
   color: #000; /* Darker color on hover */
   text-decoration: none;
   cursor: pointer;
 }
+
 
 hr {
   border: none;
@@ -52,7 +52,18 @@ hr {
 }
 
 /* Form styles */
+
 form {
+  max-width: 600px;
+  margin: 7% auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px; /* More rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Deeper shadow */
+  background-color: #f9f9f9;
+}
+
+.task {
   max-width: 600px;
   margin: 7% auto;
   padding: 20px;
@@ -113,3 +124,4 @@ button:hover:not(:disabled) {
   background-color: #0056b3;
   transform: translateY(-2px); 
 }
+

@@ -14,6 +14,14 @@ export class ProjectService {
     return this.http.get(`http://localhost:3000/project/all`);
   }
 
+  getAllProjectByManager(userId:number):Observable<any>{
+    return this.http.get(`http://localhost:3000/project/manager/${userId}`);
+  }
+
+  getAllProjectByEmployee(userId:number):Observable<any>{
+    return this.http.get(`http://localhost:3000/project/employee/${userId}`);
+  }
+
   addProject(project:Project):Observable<any>{
     return this.http.post(`http://localhost:3000/project/add`,project);
   }

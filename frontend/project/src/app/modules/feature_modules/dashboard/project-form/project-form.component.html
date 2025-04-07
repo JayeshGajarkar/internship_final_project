@@ -1,6 +1,7 @@
 <div class="modal">
     <div class="modal-content">
         <span class="close" (click)="close()">&times;</span>
+        <h2 class="form-title">{{ Project ? 'Edit Project' : 'Create Project' }}</h2>
         <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
             <label for="projectName">Project Name:</label>
             <input type="text" id="projectName" name="projectName" formControlName="projectName">
@@ -46,3 +47,5 @@
         </form>
     </div>
 </div>
+
+<p-toast/>

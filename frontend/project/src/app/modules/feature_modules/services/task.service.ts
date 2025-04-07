@@ -7,6 +7,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TaskService {
+  filterTasksByStatus(taskList: Task[], arg1: string): any {
+    throw new Error('Method not implemented.');
+  }
 
   constructor(private http:HttpClient) { }
 
@@ -16,6 +19,10 @@ export class TaskService {
 
   getTasksByPorjectId(projectId:number):Observable<any>{
     return this.http.get(`http://localhost:3000/task/get/${projectId}`);
+  }
+
+  getTasksByUserId(userId:number):Observable<any>{
+    return this.http.get(`http://localhost:3000/task/all/${userId}`);
   }
 
   updateTask(taskId:number,task:Task):Observable<any>{

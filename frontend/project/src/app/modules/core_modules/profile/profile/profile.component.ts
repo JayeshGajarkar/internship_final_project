@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../shared_modules/services/auth.service';
 import { User } from '../../../../models/user.model';
+import { MessageService } from 'primeng/api';
+import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 
 
 @Component({
@@ -9,16 +11,27 @@ import { User } from '../../../../models/user.model';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
-  currUser!:User;
+  currUser!:User|null;
+  editProfileEnable:boolean=false;
+  userForm!:FormGroup;
 
-  constructor(private authService:AuthService) {
+  constructor(private authService:AuthService) {};
+
+  ngOnInit(): void {
     this.authService.currUserSubject.subscribe(data=>{
-      if(data){
         this.currUser=data;
-      }
     })
+  }
+
+  editProfile(){
+    this.editProfileEnable=true;    
+  }
+
+
+  closeEditProfile(){
+    this.editProfileEnable=false;
   }
 
 }

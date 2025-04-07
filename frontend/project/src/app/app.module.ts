@@ -7,22 +7,28 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileModule } from './modules/core_modules/profile/profile.module';
-import { DashboardModule } from './modules/feature_modules/dashboard/dashboard.module';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './modules/shared_modules/shared/shared.module';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { RippleModule } from 'primeng/ripple';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ProfileModule,
-    DashboardModule,
     HomeModule,
-    SharedModule
+    SharedModule,
+    RippleModule,
+    ToastModule,
+    FormsModule,
   ],
   providers: [
     provideAnimationsAsync(),
@@ -30,7 +36,8 @@ import { SharedModule } from './modules/shared_modules/shared/shared.module';
         theme: {
             preset: Aura
         }
-    })
+    }),
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

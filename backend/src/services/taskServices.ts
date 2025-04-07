@@ -36,7 +36,7 @@ export class taskServices {
 
         const user = await userRepository.findOne({ where: { userId }, relations: ["tasks"] });
         if (!user) {
-            throw new Error('Project not found');
+            throw new Error('User not found');
         }
         // project.tasks.push(task);
         // user.tasks.push(task);
@@ -49,5 +49,7 @@ export class taskServices {
         return await taskRepository.find({where: { project: {projectId} },relations:['user']});
     }
 
-
+    static async getTaskByUserId(userId: number): Promise<Task[]> {
+        return await taskRepository.find({where: { user: {userId} },relations:['project']});
+    }
 }

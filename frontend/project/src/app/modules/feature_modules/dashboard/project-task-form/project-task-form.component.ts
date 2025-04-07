@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../shared_modules/services/auth.service';
 import { Task } from '../../../../models/task.model';
 import { User } from '../../../../models/user.model';
+import { MessageService } from 'primeng/api';
 ;
 
 @Component({
@@ -13,6 +14,7 @@ import { User } from '../../../../models/user.model';
   templateUrl: './project-task-form.component.html',
   styleUrl: './project-task-form.component.css'
 })
+
 export class ProjectTaskFormComponent implements OnChanges {
 
   @Input() task!: Task;
@@ -30,7 +32,7 @@ export class ProjectTaskFormComponent implements OnChanges {
     dueDate: new FormControl()
   });
 
-  constructor(private taskService: TaskService, private router: Router, private userService: AuthService) {
+  constructor(private taskService: TaskService, private router: Router, private userService: AuthService,private messageService:MessageService) {
     this.userService.getUserByRole("Employee").subscribe({
       next: (data) => {
         this.userList = data;
@@ -62,24 +64,24 @@ export class ProjectTaskFormComponent implements OnChanges {
       this.taskService.addTask(this.taskForm.value as Task, this.projectId).subscribe({
         next: (data) => {
           if (data) {
-            alert(data.message);
-            this.close()
+            this.messageService.add({ severity: 'info', summary: 'Info', detail: `${data.message}` })
+            this.close();
           }
         }, error: (err) => {
           console.log(err);
-          alert(err.message);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
         }
       })
     }else{
       this.taskService.updateTask(this.task.taskId,this.taskForm.value as Task).subscribe({
         next: (data) => {
           if (data) {
-            alert(data.message);
-            this.closeTaskFormEvent.emit()
+            this.messageService.add({ severity: 'info', summary: 'Info', detail: `${data.message}` })
+            this.close();
           }
         }, error: (err) => {
           console.log(err);
-          alert(err.message);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
         }
       });
     }
@@ -88,7 +90,6 @@ export class ProjectTaskFormComponent implements OnChanges {
 
   close() {
     this.closeTaskFormEvent.emit();
-    this.router.navigate(['/dashboard']);
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { User } from '../../../../models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -11,18 +12,15 @@ import { AuthService } from '../../services/auth.service';
 export class HeaderComponent {
   title = 'project';
 
-  isLoggedIn:boolean=false;
+  currUser!:User|null;
 
   constructor(private authService:AuthService,private router:Router){
     this.authService.currUserSubject.subscribe(data=>{
-      if(data){
-        this.isLoggedIn=true;
-      }
+        this.currUser=data;
     })
   }
 
   logOut(){
-    this.isLoggedIn=false;
     this.authService.logOut();
     this.router.navigate(['/logIn']);
   }

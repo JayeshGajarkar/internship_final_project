@@ -1,68 +1,71 @@
+import { User } from "../entities/user";
 import { userRepository } from "../repositories/userRepository";
+import { OTPService } from "./otpServices";
 
 export class userService {
 
-  //For jwtAuthentication
-  static async getUser(name: string, email: string) {
-    try {
-      const user = await userRepository.createQueryBuilder("user")
-        .where("user.name= :name AND user.email=:email", { name: name, email: email })
-        .getOne();
-      return user;
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      return error;
-    }
+  // For jwtAuthentication
+  static async getUser(email: string) {
+    const user = await userRepository.findOne({ where: { email } });
+    return user;
   }
 
-
-  static async getUserById(userId: number) {
-    try {
-      const user = await userRepository.createQueryBuilder("user")
-        .where("user.userId=:id", { id: userId })
-        .getOne();
-      return user;
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      return error;
+  static async updateUser(userId: number, newUser: User) {
+    const user = await userRepository.findOne({ where: { userId } });
+    if (!user) {
+      throw new Error('User not found');
     }
+    userRepository.merge(user, newUser);
+    return await userRepository.save(user);
   }
-  
-
 
   static async getUsersByRole(role: string) {
-    try {
-      const user = await userRepository.createQueryBuilder("user")
-        .where("user.role=:role", { role: role })
-        .getMany();
-      return user;
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      return error;
-    }
+    const users = await userRepository.find({ where: { role } });
+    return users;
   }
 
-  static async addUser(name: string, email: string, role: string, password: string) {
-    try {
+  static async addUser(name: string, email: string, otp: string, role: string, password: string) {
       const user = userRepository.create({ name, email, role, password });
       await userRepository.save(user);
-    } catch (error) {
-      console.error('Error adding user:', error);
-      return error;
-    }
+      return user;
   }
-
 
   static async getAllUsers() {
-    try {
-      const users = await userRepository.find({
-        select: ['userId', 'name', 'email', 'role']
-      });
-      return users;
-    } catch (error) {
-      return error;
+    const users = await userRepository.find({
+      select: ['userId', 'name', 'email', 'role']
+    });
+    return users;
+  }
+
+  static async sendOtpForSignUp(email: string){
+    const user=await this.getUser(email);
+    if(user){
+      throw new Error("User already exit")
+    }
+    return OTPService.sendOtp(email,"sign UP");
+  }
+
+  static async sendOtpForPassword(email: string){
+    const user=await this.getUser(email);
+    if(!user){
+      throw new Error("User not Found")
+    }
+    return OTPService.sendOtp(email,"Reset Password");
+  }
+
+  static async changePassword(email:string,password:string){
+    const user = await userRepository.findOne({ where: { email } });
+    if(!user){
+      throw new Error("User not Found")
+    }
+    user.password=password;
+    return await userRepository.save(user);
+  }
+
+  static async verifyOtp(email: string, otp: string) {
+    if(!OTPService.verifyOtp(email, otp)){
+      throw new Error('Invalid OTP');
     }
   }
 
-  
 }

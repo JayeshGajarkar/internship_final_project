@@ -19,10 +19,25 @@ export class AuthService {
     }
   }
   
-  signIn(user:User):Observable<any>{
+  signUp(user:User):Observable<any>{
     return this.http.post(`http://localhost:3000/user/signIn`,user);
   }
 
+  sendOtpForSignUp(email:string):Observable<any>{
+    return this.http.post(`http://localhost:3000/user/sendOtpForSignUp`,{email});
+  }
+
+  sendOtpForPassword(email:string):Observable<any>{
+    return this.http.post(`http://localhost:3000/user/sendOtpForPassword`,{email});
+  }
+
+  verifyOtp(email:string,otp:string):Observable<any>{
+    return this.http.post(`http://localhost:3000/user/verifyOtp`,{email,otp});
+  }
+
+  changePassword(user:Partial<User>):Observable<any>{
+    return this.http.put(`http://localhost:3000/user/changePassword`,user);
+  }
 
   logIn(user:User):Observable<any>{
     return this.http.post(`http://localhost:3000/user/logIn`,user);
@@ -41,10 +56,14 @@ export class AuthService {
   }
 
   getUsers():Observable<any>{; 
-    return this.http.get(`http://localhost:3000/user/all`)
+    return this.http.get(`http://localhost:3000/user/get/all`)
   }
 
   getUserByRole(role:string):Observable<any>{
     return this.http.get(`http://localhost:3000/user/${role}`);
+  }
+
+  updateUser(userId:number,user:User):Observable<any>{
+    return this.http.put(`http://localhost:3000/user/update/${userId}`,user)
   }
 }

@@ -3,7 +3,7 @@ import { Comment } from './comment';
 import { Task } from './task';
 import { Project } from './project';
 
-@Entity('User_13')
+@Entity('User_14')
 export class User {
   @PrimaryGeneratedColumn()
   userId: number;
@@ -26,6 +26,6 @@ export class User {
   @OneToMany(() => Project, project => project.user)
   projects: Project[];
 
-  @OneToMany(() => Comment, comment => comment.user)
-  comments: Comment[];
+  @OneToMany(() => Comment, comment => comment.user,{cascade:true})
+  comments: Comment[];zz
 }

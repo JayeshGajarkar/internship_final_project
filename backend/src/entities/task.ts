@@ -4,15 +4,15 @@ import { Comment } from './comment';
 import { User } from './user';
 import { TaskPriority, TaskStatus } from './enum.model';
 
-@Entity('Task_13')
+@Entity('Task_14')
 export class Task {
   @PrimaryGeneratedColumn()
   taskId: number;
 
-  @Column({type:'varchar',length:30})
+  @Column({ type: 'varchar', length: 30 })
   title: string;
 
-  @Column({type:'varchar'})
+  @Column({ type: 'text' })
   description: string;
 
   @Column({
@@ -33,14 +33,14 @@ export class Task {
   @Column({ type: 'date', nullable: true })
   dueDate?: Date;
 
-  @ManyToOne(() => Project, project => project.tasks,{onDelete:'CASCADE'})
-  @JoinColumn({name:'projectId'})
+  @ManyToOne(() => Project, project => project.tasks, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'projectId' })
   project: Project;
 
-  @ManyToOne(()=>User,user=>user.tasks)
-  @JoinColumn({name:'userId'})
-  user:User
+  @ManyToOne(() => User, user => user.tasks)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 
-  @OneToMany(() => Comment, comment => comment.task, { cascade: true})
+  @OneToMany(() => Comment, comment => comment.task, { cascade: true })
   comments: Comment[];
 }

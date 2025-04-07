@@ -1,18 +1,35 @@
+<div class="modal-background" *ngIf="taskId"></div>
 <div class="comment-drawer" *ngIf="taskId">
+    <h2>Task :{{taskId}}</h2>
     <h3>Comments</h3>
-    <ul>
-        <li *ngFor="let comment of comments" [ngClass]="{'comment-item': true, 'current-user': comment.user.userId === currentUser?.userId}">
+    <button (click)="closeComment()" class="close-button">&times;</button>
+    <ul class="comment-list">
+        <li *ngFor="let comment of comments"
+            [ngClass]="{'comment-item': true, 'current-user': comment.user.userId === currUser?.userId}">
             <span class="profile-icon">👤</span>
-            <p><b>{{comment.user.userId}}.</b> <b>{{comment.user.name}}:</b>  </p>
-            {{ comment.commentText }}
+            <div class="comment-content">
+                <p><b>{{comment.user.userId}}.</b> <b>{{comment.user.name}}:</b></p>
+                <p>{{comment.commentText}} <button (click)="downloadFile(comment.commentText)" *ngIf="isFileComment(comment.commentText)" pButton type="button" icon="pi pi-download"></button></p>
+                <p>{{comment.commentTime}}</p>
+                
+            </div>
+            <div *ngIf="comment.user.userId === currUser?.userId || currUser?.role ==='Admin'">
+                <button (click)="deleteComment(comment.commentId)">
+                    <i class="pi pi-trash"></i>
+                </button>
+            </div>
         </li>
     </ul>
-
-    <form #commentForm="ngForm" (ngSubmit)="onSubmit(commentForm)">
-        <label for="commentText">Comment:</label>
-        <input id="commentText" name="commentText" [(ngModel)]="commentText" required>
-        <button type="submit">Add Comment</button>
-    </form>
-    
 </div>
 
+<form #commentForm="ngForm" (ngSubmit)="onSubmit(commentForm)" class="comment-form">
+    <label for="commentText">Comment:</label>
+    <input *ngIf="fileUploadEnable" type="file" (change)="onFileSelected($event)">
+    <input *ngIf="!fileUploadEnable" id="commentText" name="commentText" [(ngModel)]="commentText" required>
+    <button type="submit">Send</button>
+    <button type="button" (click)="addFileEnable()">Add file</button>
+    <button *ngIf="fileUploadEnable" type="button" (click)="addFileClose()">Cancel</button>
+    <button type="button" (click)="closeComment()">Close</button>
+</form>
+
+<p-toast></p-toast>

@@ -1,3 +1,4 @@
+import { Project } from "./project.model";
 import { User } from "./user.model";
 
 export interface Task {
@@ -6,8 +7,10 @@ export interface Task {
     description: string;
     priority:"High"|"Medium"|"Low"
     status: "To do" | "In progress" | "Done";
-    startDate?: Date;
-    dueDate?: Date;
+    startDate: Date;
+    dueDate: Date;
     userId:number;
     user?:User;
+    project?:Project;
+    isEditable?: boolean;
 }

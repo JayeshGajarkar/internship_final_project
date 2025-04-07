@@ -1,1 +1,39 @@
-<h1>Home page</h1>
+<section class="home-section">
+    <div class="hero">
+        <h1>Welcome to Project Management Tool</h1>
+        <p>Your one-stop solution to manage projects, tasks, and teams efficiently.</p>
+        <a routerLink="/dashboard" class="cta-button">Go to Dashboard</a>
+    </div>
+
+    <div class="features">
+        <h2>Key Features</h2>
+        <div class="feature-cards">
+            <div class="feature-card">
+                <h3>Organize Projects</h3>
+                <p>Easily create and manage multiple projects with detailed tasks and deadlines.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Task Management</h3>
+                <p>Track tasks, set priorities, assign users, and monitor progress in real-time.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Collaboration</h3>
+                <p>Collaborate with team members, leave comments, and ensure smooth communication.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="get-started">
+        <h2>Get Started Today</h2>
+        <p>Ready to boost your productivity? Sign up now and start managing your projects effectively!</p>
+        <div *ngIf="!currUser">
+            <a routerLink="/signUp" class="cta-button">Sign In</a>
+            <a routerLink="/logIn" class="cta-button secondary">Log In</a>
+        </div>
+        <div *ngIf="currUser">
+            <a routerLink="/profile" class="cta-button">Profile</a>
+        </div>
+    </div>
+</section>
+
+

@@ -96,21 +96,21 @@
     </p-table>
 </div>
 
-<div *ngIf="addProjectEnable">
+<ng-container *ngIf="addProjectEnable">
     <app-project-form (CloseProjectEditEvent)="closeAddProjectForm()"></app-project-form>
-</div>
+</ng-container>
 
 <!-- Edit Project Form -->
-<div *ngIf="editModeEnable">
+<ng-container *ngIf="editModeEnable">
     <app-project-form [Project]="project" (CloseProjectEditEvent)="closeEditForm()"></app-project-form>
-</div>
+</ng-container>
 
 <!-- Show Tasks -->
-<div *ngIf="showTaskEnable">
+<ng-container *ngIf="showTaskEnable">
     <h1>Project Tasks</h1>
     <app-project-task-display [projectId]="projectId"></app-project-task-display>
     <br>
     <button (click)="closeShowTask()" class="close-task-btn">&times;</button>
-</div>
+</ng-container>
 
 <p-toast></p-toast>

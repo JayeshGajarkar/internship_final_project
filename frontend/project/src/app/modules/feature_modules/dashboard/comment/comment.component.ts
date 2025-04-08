@@ -42,8 +42,7 @@ export class CommentComponent implements OnChanges, OnInit {
         console.log(data);
         console.log(data[0].commentTime);
       }, error: (err) => {
-        console.log(err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
     })
   }
@@ -60,7 +59,7 @@ export class CommentComponent implements OnChanges, OnInit {
             this.commentText = '';
             this.getAllComment();
           }, error: (err) => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
           }
         })
       } else {
@@ -69,14 +68,12 @@ export class CommentComponent implements OnChanges, OnInit {
           fileData.append('file', this.selectedFile, this.selectedFile.name);
           this.commentService.sendFile(this.taskId, this.currUser.userId, fileData).subscribe({
             next: (data) => {
-              console.log(data);
               this.fileUploadEnable = false;
               this.selectedFile = null;
               this.getAllComment();
               this.messageService.add({ severity: 'success', summary: 'Success', detail: `${data.message}` });
             }, error: (err) => {
-              console.log(err);
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
             }
           })
 
@@ -95,7 +92,7 @@ export class CommentComponent implements OnChanges, OnInit {
         this.messageService.add({ severity: 'warn', summary: 'Warn', detail: `${data.message}` });
         this.getAllComment();
       }, error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
     })
   }
@@ -135,7 +132,9 @@ export class CommentComponent implements OnChanges, OnInit {
         a.click();
         document.body.removeChild(a);
       },
-      error: (error) => console.error('Download failed', error)
+      error: (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${error}` });
+      }
     });    
   }
 }

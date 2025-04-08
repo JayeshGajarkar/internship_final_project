@@ -1,15 +1,16 @@
 import { Router } from "express";
-import { projectController } from "../controllers/projectController";
+import { ProjectController } from "../controllers/projectController";
+import { Authentication } from "../middlewares/authentication";
 
 const projectRouter = Router();
 
-projectRouter.post("/add",projectController.addProject);
-projectRouter.get("/get/:id",projectController.getProject);
-projectRouter.get('/all',projectController.getAllProjects);
-projectRouter.get('/manager/:id',projectController.getAllProjectsByManager);
-projectRouter.get('/employee/:id',projectController.getAllProjectsByEmployee);
-projectRouter.delete('/delete/:id',projectController.deleteProject);
-projectRouter.put('/update/:id',projectController.updateProject)
+projectRouter.post("/add",Authentication.authenticateAdmin,ProjectController.addProject);
+projectRouter.get("/get/:id",ProjectController.getProject);
+projectRouter.get('/all',Authentication.authenticateAdmin,ProjectController.getAllProjects);
+projectRouter.get('/manager/:id',Authentication.authenticateManager ,ProjectController.getAllProjectsByManager);
+projectRouter.get('/employee/:id',Authentication.authenticateJWT,ProjectController.getAllProjectsByEmployee);
+projectRouter.delete('/delete/:id',Authentication.authenticateAdmin,ProjectController.deleteProject);
+projectRouter.put('/update/:id',Authentication.authenticateAdmin,ProjectController.updateProject)
 
 
 

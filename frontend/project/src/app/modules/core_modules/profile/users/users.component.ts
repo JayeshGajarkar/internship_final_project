@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from '../../../../models/user.model';
 import { AuthService } from '../../../shared_modules/services/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-users',
@@ -13,7 +14,8 @@ export class UsersComponent {
   userList!:User[];
   user!:User; 
   editprofileEnable:boolean=false;
-  constructor(private userService:AuthService){}
+
+  constructor(private userService:AuthService,private messageService:MessageService){}
 
   ngOnInit(){
     this.getUsers();
@@ -24,7 +26,7 @@ export class UsersComponent {
       next:(data)=>{
         this.userList=data;
       },error:(err)=>{
-        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
      })
   }

@@ -9,5 +9,5 @@ import { AuthService } from './modules/shared_modules/services/auth.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  
+  title='Project management tool'
 }

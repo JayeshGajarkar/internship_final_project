@@ -3,12 +3,13 @@ import { CommentController } from "../controllers/commetController";
 import multer from "multer";
 import path from "path";
 import fs from 'fs'
+import { Authentication } from "../middlewares/authentication";
 
 const commentRouter=Router()
 
-commentRouter.post('/add/:taskId/:userId',CommentController.addComment);
-commentRouter.delete('/delete/:id',CommentController.deleteComment);
-commentRouter.get('/get/:taskId',CommentController.getCommentsByTaskId);
+commentRouter.post('/add/:taskId/:userId',Authentication.authenticateJWT,CommentController.addComment);
+commentRouter.delete('/delete/:id',Authentication.authenticateJWT,CommentController.deleteComment);
+commentRouter.get('/get/:taskId',Authentication.authenticateJWT,CommentController.getCommentsByTaskId);
 
 
 const storage = multer.diskStorage({
@@ -27,8 +28,8 @@ if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
 }
 
-commentRouter.post('/upload/:taskid/:userId',upload.single('file'),CommentController.addFile);
-commentRouter.get('/download/:filename',CommentController.downloadFile)
+commentRouter.post('/upload/:taskid/:userId',upload.single('file'),Authentication.authenticateJWT,CommentController.addFile);
+commentRouter.get('/download/:filename',Authentication.authenticateJWT,CommentController.downloadFile)
 
 
 export default commentRouter;

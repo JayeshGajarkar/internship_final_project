@@ -1,8 +1,8 @@
-import { User } from "../entities/user";
+import { UserDTO } from "../dto/user.dto";
 import { userRepository } from "../repositories/userRepository";
 import { OTPService } from "./otpServices";
 
-export class userService {
+export class UserService {
 
   // For jwtAuthentication
   static async getUser(email: string) {
@@ -10,7 +10,7 @@ export class userService {
     return user;
   }
 
-  static async updateUser(userId: number, newUser: User) {
+  static async updateUser(userId: number, newUser: UserDTO) {
     const user = await userRepository.findOne({ where: { userId } });
     if (!user) {
       throw new Error('User not found');

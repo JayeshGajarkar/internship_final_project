@@ -58,8 +58,7 @@ export class ProjectTaskDisplayComponent implements OnChanges,OnInit {
           this.taskList = data;
           this.loading = false;
         }, error: (err) => {
-          console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         }
       })
     }
@@ -118,8 +117,7 @@ export class ProjectTaskDisplayComponent implements OnChanges,OnInit {
         this.messageService.add({ severity: 'warn', summary: 'Warn', detail: `${data.message}` });
         this.getAllTask();
       }, error: (err) => {
-        console.log(err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
     });
   }

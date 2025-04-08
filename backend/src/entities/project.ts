@@ -3,11 +3,6 @@ import { Task } from './task';
 import { User } from './user';
 import { ProjectStatus } from './enum.model';
 
-export enum Status {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PENDING = 'pending'
-}
 
 @Entity('Project_14')
 export class Project {

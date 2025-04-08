@@ -63,7 +63,7 @@ export class ProjectDisplayComponent implements OnInit {
           }
         },
         error: (err) => {
-          console.error(err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         }
       });
     } else if (this.currUser?.role === 'Manager') {
@@ -75,10 +75,11 @@ export class ProjectDisplayComponent implements OnInit {
           }
         },
         error: (err) => {
-          console.error(err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         }
       });
     } else if (this.currUser?.role === 'Employee') {
+      console.log("Employee")
       this.projectService.getAllProjectByEmployee(this.currUser.userId).subscribe({
         next: (data) => {
           if (data) {
@@ -87,7 +88,7 @@ export class ProjectDisplayComponent implements OnInit {
           }
         },
         error: (err) => {
-          console.error(err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         }
       });
     }
@@ -114,20 +115,12 @@ export class ProjectDisplayComponent implements OnInit {
 
   deleteProject(projectId: number) {
     this.projectService.deleteProject(projectId).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Project Deleted'
-        });
+      next: (data) => {
+        this.messageService.add({severity: 'success',summary: 'Success',detail: `${data.message}`});
         this.getAllProjects();
       },
       error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: err.message
-        });
+        this.messageService.add({severity: 'error',summary: 'Error', detail: err});
       }
     });
   }

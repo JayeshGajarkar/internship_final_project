@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from '../../../../models/user.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { spaceValidator } from '../../../shared_modules/validators/customeValidation';
 
 
 
@@ -16,8 +17,8 @@ import { MessageService } from 'primeng/api';
 export class LogInComponent {
 
   logInForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(4)])
+    email: new FormControl('', [Validators.required, Validators.email,spaceValidator.validator]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6),spaceValidator.validator])
   });
 
   constructor(private authService:AuthService,private router:Router,private messageService:MessageService){}
@@ -33,9 +34,7 @@ export class LogInComponent {
           this.router.navigate(['/profile']);
         }, 1000); 
       },error:(err)=>{
-        console.log(err);
-        // alert(err.error.message);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.error.message}` });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
     })
   }

@@ -23,8 +23,8 @@ export class ProjectTaskFormComponent implements OnChanges {
   userList!: User[];
 
   taskForm = new FormGroup({
-    title: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
+    title: new FormControl('', [Validators.required,Validators.minLength(5)]),
+    description: new FormControl('', [Validators.required,Validators.minLength(10)]),
     priority:new FormControl('',Validators.required),
     status: new FormControl('To do', Validators.required),
     userId: new FormControl(0, Validators.required),
@@ -38,7 +38,7 @@ export class ProjectTaskFormComponent implements OnChanges {
         this.userList = data;
         // console.log(this.userList);
       }, error: (err) => {
-        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
     })
   }
@@ -68,8 +68,7 @@ export class ProjectTaskFormComponent implements OnChanges {
             this.close();
           }
         }, error: (err) => {
-          console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         }
       })
     }else{
@@ -80,8 +79,7 @@ export class ProjectTaskFormComponent implements OnChanges {
             this.close();
           }
         }, error: (err) => {
-          console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         }
       });
     }

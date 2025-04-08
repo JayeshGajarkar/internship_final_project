@@ -2,15 +2,17 @@ import { Project } from "../entities/project";
 import { projectRepository } from "../repositories/projectRepository";
 import { userRepository } from "../repositories/userRepository";
 import { taskRepository } from "../repositories/taskRepository";
+import { ProjectDTO } from "../dto/project.dto";
 
-export class projectService {
+export class ProjectService {
 
-    static async addProject(project: Partial<Project>, userId: number): Promise<void> {
+    static async addProject(project:ProjectDTO, userId: number): Promise<void> {
         const user = await userRepository.findOne({ where: { userId }, relations: ["projects"] });
         if (!user) {
             throw new Error('Project not found');
         }
-        project.user = user;
+
+        (project as Project).user = user;
         const newProject = projectRepository.create(project);
         await projectRepository.save(newProject);
     }
@@ -38,7 +40,7 @@ export class projectService {
         }
     }
 
-    static async updateProject(projectId: number, userId: number, projectData: Partial<Project>): Promise<void> {
+    static async updateProject(projectId: number, userId: number, projectData:ProjectDTO): Promise<void> {
         const project = await projectRepository.findOne({ where: { projectId }, relations: ["tasks"] });
         if (!project) {
             throw new Error('Project not found');

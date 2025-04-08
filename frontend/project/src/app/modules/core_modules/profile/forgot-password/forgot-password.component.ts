@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../shared_modules/services/auth.service';
-import { User } from '../../../../models/user.model';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { spaceValidator } from '../../../shared_modules/validators/customeValidation';
 
 @Component({
   selector: 'app-forgot-password',
@@ -22,8 +22,8 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.forgotPasswordForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)])
+      email: new FormControl('', [Validators.required, Validators.email,spaceValidator.validator]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6),spaceValidator.validator])
     });
   }
 
@@ -34,7 +34,7 @@ export class ForgotPasswordComponent implements OnInit {
         this.otpSent = true;
       },
       error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.error.message}` });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         this.otpSent = false;
       }
     })
@@ -48,7 +48,7 @@ export class ForgotPasswordComponent implements OnInit {
           this.otpVerified = true;
         },
         error: (err) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.error.message}` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
           this.otpVerified = false;
         }
       })
@@ -63,17 +63,16 @@ export class ForgotPasswordComponent implements OnInit {
       this.authService.changePassword(this.forgotPasswordForm.value).subscribe({
         next: (data) => {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: `${data.message}` });
-          
           setTimeout(()=>{
             this.router.navigate(['/logIn']);
           },1000);
         },
         error: (err) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.error.message}` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         }
       })
     }else{
-      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: `OTP is not verifiesd !` });
+      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: `OTP is not verifyied !` });
     }
   }
 }

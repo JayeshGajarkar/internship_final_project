@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ProfileModule } from './modules/core_modules/profile/profile.module';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './modules/shared_modules/shared/shared.module';
@@ -13,6 +13,9 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { RippleModule } from 'primeng/ripple';
 import { FormsModule } from '@angular/forms';
+import { TokenInterceptorService } from './interceptors/token-interceptor.service';
+import { HttpErrorInterceptorService } from './interceptors/http-error-interceptor.service';
+
 
 
 @NgModule({
@@ -24,11 +27,11 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     ProfileModule,
-    HomeModule,
     SharedModule,
     RippleModule,
     ToastModule,
     FormsModule,
+    HomeModule
   ],
   providers: [
     provideAnimationsAsync(),
@@ -37,6 +40,18 @@ import { FormsModule } from '@angular/forms';
             preset: Aura
         }
     }),
+    
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptorService,
+      multi: true
+    },
+    
     MessageService
   ],
   bootstrap: [AppComponent]

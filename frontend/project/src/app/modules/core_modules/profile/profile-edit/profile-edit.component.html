@@ -12,6 +12,9 @@
                 <div *ngIf="userForm.get('name')!.invalid && userForm.get('name')!.touched" class="error-message">
                     Name is required.
                 </div>
+                <div *ngIf="userForm.get('name')!.errors?.['noSpaceAndNumber']" class="error-message">
+                    Name can not Start with space or contain number.
+                </div>
             </div>
     
             <!-- Email Field -->
@@ -20,6 +23,9 @@
                 <input type="email" id="email" formControlName="email" placeholder="Enter your email" />
                 <div *ngIf="userForm.get('email')!.invalid && userForm.get('email')!.touched" class="error-message">
                     Please enter a valid email.
+                </div>
+                <div *ngIf="userForm.get('email')!.errors?.['noSpaceAllowed']" class="error-message">
+                    Spaces are not allowed in the email.
                 </div>
             </div>
     

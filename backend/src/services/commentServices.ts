@@ -2,9 +2,10 @@ import { taskRepository } from "../repositories/taskRepository";
 import { userRepository } from "../repositories/userRepository";
 import { Comment } from "../entities/comment";
 import { commentRepository } from "../repositories/commentRepository";
+import { CommentDTO } from "../dto/comment.dto";
 
 export class commentService {
-    static async addComment(taskId: number, userId: number, comment: Comment): Promise<void> {
+    static async addComment(taskId: number, userId: number, comment:CommentDTO): Promise<void> {
         const task = await taskRepository.findOne({where:{taskId},relations:['comments']});
         if (!task) {
             throw new Error('Task not found');
@@ -13,8 +14,9 @@ export class commentService {
         if (!user) {
             throw new Error('User not found');
         }
-        comment.task=task;
-        comment.user=user;
+        
+        (comment as Comment).task=task;
+        (comment as Comment).user=user
         await commentRepository.save(comment);
 
     }

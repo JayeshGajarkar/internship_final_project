@@ -23,8 +23,8 @@ export class ProjectFormComponent implements OnChanges,OnInit {
     projectName: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     status: new FormControl('', Validators.required),
-    startDate: new FormControl(),
-    dueDate: new FormControl(),
+    startDate: new FormControl(new Date(),Validators.required),
+    dueDate: new FormControl(new Date()),
     userId:new FormControl(0,Validators.required),
   });
 
@@ -37,8 +37,7 @@ export class ProjectFormComponent implements OnChanges,OnInit {
           this.userList=data;
         }
       },error:(err)=>{
-        console.log(err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
     })
   }
@@ -67,13 +66,13 @@ export class ProjectFormComponent implements OnChanges,OnInit {
             this.close(); //navigate dashboard and close the form
           }
         },error:(err)=>{
-          console.log(err);
           // alert(err.message);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         }
       });
     }else{
       // console.log("Add project called");
+      console.log(this.projectForm.value);
       this.projectService.addProject(this.projectForm.value as Project).subscribe({
         next:(data)=>{
           if(data){
@@ -81,8 +80,7 @@ export class ProjectFormComponent implements OnChanges,OnInit {
             this.close(); 
           }
         },error:(err)=>{
-          console.log(err);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         }
       });
       this.projectForm.reset()

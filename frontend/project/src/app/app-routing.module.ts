@@ -9,20 +9,22 @@ import { AboutComponent } from './home/about/about.component';
 import { ContactComponent } from './home/contact/contact.component';
 import { PrivacyPolicyComponent } from './home/privacy-policy/privacy-policy.component';
 import { ForgotPasswordComponent } from './modules/core_modules/profile/forgot-password/forgot-password.component';
+import { adminGuard } from './guards/admin.guard';
+import { loggedInGuard } from './guards/logged-in.guard';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'contact', component: ContactComponent },
+  { path: 'contact', component: ContactComponent},
   { path: 'privacy', component: PrivacyPolicyComponent },
   { path: 'signUp', component: SignUpComponent },
   { path: 'logIn', component: LogInComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'profile', component: ProfileComponent,canActivate:[loggedInGuard]},
   { path: 'forgotPassword', component: ForgotPasswordComponent },
-  { path: 'dashboard', loadChildren: () => import('./modules/feature_modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
-  { path: 'employee', component: UsersComponent },
+  { path: 'dashboard', loadChildren: () => import('./modules/feature_modules/dashboard/dashboard.module').then(m => m.DashboardModule),canActivate:[loggedInGuard]},
+  { path: 'employee', component: UsersComponent,canActivate:[adminGuard]},
 ];
 
 @NgModule({

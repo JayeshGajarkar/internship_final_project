@@ -11,7 +11,7 @@
                     <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
                         placeholder="Global Search" />
                     <p-button icon="pi pi-plus" label="Add Task " (click)="addTask()" class="ml-2"
-                        [disabled]="currUser?.role !== 'Admin'"></p-button>
+                        [disabled]="currUser?.role==='Employee'"></p-button>
                 </p-iconField>
             </div>
         </ng-template>
@@ -108,18 +108,18 @@
 </div>
 
 <!-- Add Task button -->
-<div *ngIf="addTaskEnable">
+<ng-container *ngIf="addTaskEnable">
     <app-project-task-form (closeTaskFormEvent)="closeAddTask()" [projectId]="projectId"></app-project-task-form>
-</div>
+</ng-container>
 
 <!-- Edit task container -->
-<div *ngIf="editTaskEnable">
+<ng-container *ngIf="editTaskEnable">
     <app-project-task-form (closeTaskFormEvent)="closeEditTask()" [task]="task"></app-project-task-form>
-</div>
+</ng-container>
 
 <!-- show comment container -->
-<div *ngIf="showCommentsEnable">
+<ng-container *ngIf="showCommentsEnable">
     <app-comment (closeCommentsEvent)="closeComment()" [taskId]="taskId"></app-comment>
-</div>
+</ng-container>
 
 <p-toast />

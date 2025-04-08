@@ -1,7 +1,7 @@
 <div class="login-container">
     <div class="login-form">
         <h2 class="form-title">Log In</h2>
-        
+
         <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
             <!-- Email Field -->
             <div class="form-group">
@@ -10,14 +10,21 @@
                 <div *ngIf="logInForm.get('email')!.invalid && logInForm.get('email')!.touched" class="error-message">
                     Please enter a valid email address.
                 </div>
+                <div *ngIf="logInForm.get('email')!.errors?.['noSpaceAllowed']" class="error-message">
+                    Spaces are not allowed in the email.
+                </div>
             </div>
 
             <!-- Password Field -->
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" formControlName="password" placeholder="Enter your password" />
-                <div *ngIf="logInForm.get('password')!.invalid && logInForm.get('password')!.touched" class="error-message">
-                    Password is required and must be at least 4 characters.
+                <div *ngIf="logInForm.get('password')!.invalid && logInForm.get('password')!.touched"
+                    class="error-message">
+                    Password is required and must be at least 6 characters.
+                </div>
+                <div *ngIf="logInForm.get('password')!.errors?.['noSpaceAllowed']" class="error-message">
+                    Spaces are not allowed in the password.
                 </div>
             </div>
 
@@ -34,4 +41,4 @@
     </div>
 </div>
 
-<p-toast/>
+<p-toast></p-toast>

@@ -1,64 +1,79 @@
-import { Request, Response } from 'express';
-import { taskServices } from '../services/taskServices';
+import { Request, Response, NextFunction } from 'express';
+import { TaskServices } from '../services/taskServices';
 import { Task } from '../entities/task';
+import AppError from '../middlewares/appError';
+import { TaskDTO } from '../dto/task.dto';
+import { validate } from 'class-validator';
 
-export class taskController {
-    static async addTask(req: Request, res: Response): Promise<void> {
-        const userId  = parseInt(req.body.userId);
-        const projectId  = parseInt(req.params.projectId);
-        const task: Task = req.body;
+export class TaskController {
+    static async addTask(req: Request, res: Response, next: NextFunction): Promise<void> {
+        const userId = parseInt(req.body.userId);
+        const projectId = parseInt(req.params.projectId);
+        const taskDTO = new TaskDTO();
+        Object.assign(taskDTO, req.body);
         try {
-            await taskServices.addTask(projectId, userId, task);
-            res.status(201).json({message:"Task added sucessfully"});
+            const errors = await validate(taskDTO);
+            if (errors.length > 0) {
+                const errorMessages = errors.map(err => Object.values(err.constraints)).join(', ');
+                throw new AppError(`Validation failed: ${errorMessages}`, 400);
+            }
+            await TaskServices.addTask(projectId, userId, taskDTO);
+            res.status(201).json({ message: "Task added successfully" });
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: error.message });
+            next(new AppError(error.message, 500));
         }
     }
 
-    static async deleteTask(req: Request, res: Response): Promise<void> {
-        const taskId =parseInt(req.params.id);
-        try {
-            await taskServices.deleteTask(taskId);
-            res.status(201).json({message:"Task deleted successfully"});
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ message: error.message });
-        }
-    }
-
-    static async updateTask(req: Request, res: Response): Promise<void> {
+    static async deleteTask(req: Request, res: Response, next: NextFunction): Promise<void> {
         const taskId = parseInt(req.params.id);
-        const newTask: Task = req.body;
-        const userId=parseInt(req.body.userId);
         try {
-            await taskServices.updateTask(userId,taskId, newTask);
-            res.status(201).json({message:"Task updated successfully"});
+            await TaskServices.deleteTask(taskId);
+            res.status(201).json({ message: "Task deleted successfully" });
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: error.message });
+            next(new AppError(error.message, 500));
         }
     }
 
-    static async getTaskByProjectId(req: Request, res: Response): Promise<void> {
+    static async updateTask(req: Request, res: Response, next: NextFunction): Promise<void> {
+        const taskId = parseInt(req.params.id);
+        const userId = parseInt(req.body.userId);
+        const taskDTO = new TaskDTO();
+        Object.assign(taskDTO, req.body);
+        try {
+            const errors = await validate(taskDTO);
+            if (errors.length > 0) {
+                const errorMessages = errors.map(err => Object.values(err.constraints)).join(', ');
+                throw new AppError(`Validation failed: ${errorMessages}`, 400);
+            }
+            await TaskServices.updateTask(userId, taskId, taskDTO);
+            res.status(201).json({ message: "Task updated successfully" });
+        } catch (error) {
+            console.log(error);
+            next(new AppError(error.message, 500));
+        }
+    }
+
+    static async getTaskByProjectId(req: Request, res: Response, next: NextFunction): Promise<void> {
         const projectId = parseInt(req.params.id);
         try {
-            const tasks = await taskServices.getTaskByProjectId(projectId);
+            const tasks = await TaskServices.getTaskByProjectId(projectId);
             res.status(200).json(tasks);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: error.message });
+            next(new AppError(error.message, 500));
         }
     }
 
-    static async getTaskByUserId(req: Request, res: Response): Promise<void> {
+    static async getTaskByUserId(req: Request, res: Response, next: NextFunction): Promise<void> {
         const userId = parseInt(req.params.id);
         try {
-            const tasks = await taskServices.getTaskByUserId(userId);
+            const tasks = await TaskServices.getTaskByUserId(userId);
             res.status(200).json(tasks);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: error.message });
+            next(new AppError(error.message, 500));
         }
     }
 }

@@ -32,6 +32,8 @@ export class MyTaskComponent implements OnInit {
       this.taskService.getTasksByUserId(this.currUser?.userId).subscribe({
         next: (data) => {
           this.taskList = data;
+        },error:(err)=>{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
         }
       })
     }
@@ -71,7 +73,7 @@ export class MyTaskComponent implements OnInit {
         console.log(data);
         this.messageService.add({ severity: 'info', summary: 'Info', detail: `${data.message}` });
       }, error: (err) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err.message}` });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
     })
   }

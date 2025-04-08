@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Task } from '../../../models/task.model';
 import { TaskService } from '../services/task.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-kanban-board',
@@ -15,7 +16,7 @@ export class KanbanBoardComponent implements OnInit {
   taskList!:Task[];
   viewChartEnable:boolean=false;
 
-  constructor(private route:ActivatedRoute,private taskService:TaskService,private router:Router){}
+  constructor(private route:ActivatedRoute,private messageService:MessageService,private taskService:TaskService,private router:Router){}
 
   ngOnInit(): void {
 
@@ -25,7 +26,7 @@ export class KanbanBoardComponent implements OnInit {
         this.getTasksList();
         //this.filterTasks();
       },error:(err)=>{
-        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
     })
 
@@ -36,7 +37,7 @@ export class KanbanBoardComponent implements OnInit {
       next:(data)=>{
         this.taskList=data;
       },error:(err)=>{
-        console.log(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
     })
   }

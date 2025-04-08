@@ -5,8 +5,8 @@ export interface Project{
     projectName: string;
     description: string;
     status: "Not Started" | "Active" | "Completed";
-    startDate?: Date;
-    dueDate?: Date;
+    startDate: Date;
+    dueDate: Date;
     userId:number;
     user:User;
 }

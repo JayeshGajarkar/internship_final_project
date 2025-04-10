@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Timestamp } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Task } from './task';
 import { User } from './user';
 
@@ -10,8 +10,8 @@ export class Comment {
   @Column()
   commentText: string;
 
-  @Column({ type:'timestamp' })
-  commentTime: Timestamp;
+  @Column({ type: 'time', nullable: true })
+  commentTime?: string; 
 
   @ManyToOne(() => Task, task => task.comments, { onDelete: 'CASCADE' })
   @JoinColumn({name:'taskId'})

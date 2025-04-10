@@ -9,12 +9,12 @@ export class CommentController {
   static async addComment(req: Request, res: Response, next: NextFunction) {
     const taskId = parseInt(req.params.taskId);
     const userId = parseInt(req.params.userId);
+    
     const commentDTO = new CommentDTO();
     Object.assign(commentDTO, req.body);
 
     try {
       const errors = await validate(commentDTO);
-      console.log(errors);
       if (errors.length > 0) {
         const errorMessages = errors.map(err => Object.values(err.constraints)).join(', ');
         throw new AppError(`Validation failed: ${errorMessages}`, 400);

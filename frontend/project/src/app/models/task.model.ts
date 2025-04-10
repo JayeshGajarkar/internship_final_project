@@ -9,7 +9,7 @@ export interface Task {
     status: "To do" | "In progress" | "Done";
     startDate: Date;
     dueDate: Date;
-    userId:number;
+    userId?:number;
     user?:User;
     project?:Project;
     isEditable?: boolean;

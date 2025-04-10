@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../shared_modules/services/auth.service';
 import { User } from '../../../../models/user.model';
-import { MessageService } from 'primeng/api';
-import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
+import { FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -28,7 +27,6 @@ export class ProfileComponent implements OnInit {
   editProfile(){
     this.editProfileEnable=true;    
   }
-
 
   closeEditProfile(){
     this.editProfileEnable=false;

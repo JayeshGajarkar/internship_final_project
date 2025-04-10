@@ -6,6 +6,8 @@ import { Project } from '../../../../models/project.model';
 import { User } from '../../../../models/user.model';
 import { AuthService } from '../../../shared_modules/services/auth.service';
 import { MessageService } from 'primeng/api';
+import { multiSpacesValidator } from '../../../shared_modules/validators/multipleSpaceValidation';
+import { nameValidator } from '../../../shared_modules/validators/nameValidation';
 
 @Component({
   selector: 'app-project-form',
@@ -20,11 +22,11 @@ export class ProjectFormComponent implements OnChanges,OnInit {
   userList:User[]=[];
 
   projectForm = new FormGroup({
-    projectName: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
+    projectName: new FormControl('', [Validators.required,nameValidator.validator]),
+    description: new FormControl('', [Validators.required,multiSpacesValidator.validator]),
     status: new FormControl('', Validators.required),
     startDate: new FormControl(new Date(),Validators.required),
-    dueDate: new FormControl(new Date()),
+    dueDate: new FormControl(new Date(),Validators.required),
     userId:new FormControl(0,Validators.required),
   });
 

@@ -86,14 +86,20 @@
                 <td>{{ task.user?.name }} | {{ task.user?.email }}</td>
                 <td>
                     <div style="display: inline-block;">
-                        <button *ngIf="currUser?.role==='Manager' || currUser?.role==='Admin'" (click)="editTask(task)" class="edit-btn">
+                        <button *ngIf="currUser?.role==='Manager' || currUser?.role==='Admin'" (click)="editTask(task)"
+                            class="edit-btn">
                             <i class="pi pi-pencil"></i>
-                        </button>                    
-                        <button *ngIf="currUser?.role==='Manager' || currUser?.role==='Admin'" (click)="deleteTask(task.taskId)" class="delete-btn">
-                            <i class="pi pi-trash"></i> 
                         </button>
-                        <button *ngIf="currUser?.role==='Manager' || 'Admin' || currUser?.userId===task.user?.userId" class="comment-btn" (click)="showComment(task.taskId)">
-                            <i class="pi pi-comments"></i> 
+                        <button *ngIf="currUser?.role==='Manager' || currUser?.role==='Admin'"
+                            (click)="deleteTask(task.taskId)" class="delete-btn">
+                            <i class="pi pi-trash"></i>
+                        </button>
+                        <button *ngIf="currUser?.role==='Manager' || 'Admin' || currUser?.userId===task.user?.userId"
+                            class="comment-btn" (click)="showComment(task.taskId)">
+                            <i class="pi pi-comments"></i>
+                        </button>
+                        <button class="view-btn" (click)="showDescription(task)">
+                            <i class="pi pi-eye"></i>
                         </button>
                     </div>
                 </td>
@@ -121,5 +127,13 @@
 <ng-container *ngIf="showCommentsEnable">
     <app-comment (closeCommentsEvent)="closeComment()" [taskId]="taskId"></app-comment>
 </ng-container>
+
+<!-- show description -->
+<div class="overlay" *ngIf="showDescriptionEnable">
+    <div class="container">
+        {{task.description}}
+        <button (click)="closeShowDescription()">&times;</button>
+    </div>
+</div>
 
 <p-toast />

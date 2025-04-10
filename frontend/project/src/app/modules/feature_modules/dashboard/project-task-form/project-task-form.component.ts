@@ -6,6 +6,8 @@ import { AuthService } from '../../../shared_modules/services/auth.service';
 import { Task } from '../../../../models/task.model';
 import { User } from '../../../../models/user.model';
 import { MessageService } from 'primeng/api';
+import { nameValidator } from '../../../shared_modules/validators/nameValidation';
+import { multiSpacesValidator } from '../../../shared_modules/validators/multipleSpaceValidation';
 ;
 
 @Component({
@@ -23,13 +25,13 @@ export class ProjectTaskFormComponent implements OnChanges {
   userList!: User[];
 
   taskForm = new FormGroup({
-    title: new FormControl('', [Validators.required,Validators.minLength(5)]),
-    description: new FormControl('', [Validators.required,Validators.minLength(10)]),
+    title: new FormControl('', [Validators.required,Validators.minLength(5),nameValidator.validator]),
+    description: new FormControl('', [Validators.required,Validators.minLength(10),multiSpacesValidator.validator]),
     priority:new FormControl('',Validators.required),
     status: new FormControl('To do', Validators.required),
     userId: new FormControl(0, Validators.required),
-    startDate: new FormControl(),
-    dueDate: new FormControl()
+    startDate: new FormControl(new Date(),Validators.required),
+    dueDate: new FormControl(new Date(),Validators.required)
   });
 
   constructor(private taskService: TaskService, private router: Router, private userService: AuthService,private messageService:MessageService) {

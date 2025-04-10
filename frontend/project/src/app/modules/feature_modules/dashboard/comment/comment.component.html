@@ -8,8 +8,8 @@
             [ngClass]="{'comment-item': true, 'current-user': comment.user.userId === currUser?.userId}">
             <span class="profile-icon">👤</span>
             <div class="comment-content">
-                <p><b>{{comment.user.userId}}.</b> <b>{{comment.user.name}}:</b></p>
-                <p>{{comment.commentText}} <button (click)="downloadFile(comment.commentText)" *ngIf="isFileComment(comment.commentText)" pButton type="button" icon="pi pi-download"></button></p>
+                <p><b>{{comment.user.userId}}.</b> <b>{{comment.user.name}}</b> <b>{{"      "+comment.commentTime}}</b> </p>
+                <p>{{comment.commentText+"      "}}<button (click)="downloadFile(comment.commentText)" *ngIf="isFileComment(comment.commentText)" pButton type="button" icon="pi pi-download"></button></p>
             </div>
             <ng-container *ngIf="comment.user.userId === currUser?.userId || currUser?.role ==='Admin'">
                 <button (click)="deleteComment(comment.commentId)">

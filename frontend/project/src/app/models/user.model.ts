@@ -5,6 +5,6 @@ export interface User{
     name:string;
     email:string;
     password:string;
-    role?:"Admin"|"Manager"|"Employee";
+    role:"Admin"|"Manager"|"Employee";
     tasks?:Task[]
 }

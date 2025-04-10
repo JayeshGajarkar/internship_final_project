@@ -25,6 +25,8 @@ export class ProjectTaskDisplayComponent implements OnChanges,OnInit {
   taskId!:number;
   currUser!:User|null;
 
+  showDescriptionEnable:boolean=false;
+
   prioroties = [
     { label: 'High', value: 'High' },
     { label: 'Medium', value: 'Medium' },
@@ -56,6 +58,7 @@ export class ProjectTaskDisplayComponent implements OnChanges,OnInit {
       this.taskService.getTasksByPorjectId(this.projectId).subscribe({
         next: (data) => {
           this.taskList = data;
+          this.convertStringToDate();
           this.loading = false;
         }, error: (err) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
@@ -63,6 +66,17 @@ export class ProjectTaskDisplayComponent implements OnChanges,OnInit {
       })
     }
   }
+
+
+  private convertStringToDate(){
+    // Ensure dates are converted to Date objects
+    this.taskList.forEach(task => {
+        task.startDate = new Date(task.startDate);
+        task.dueDate = new Date(task.dueDate);
+    });
+  }
+
+
 
   getPrioritySeverity(priority: string):Tag['severity'] {
     switch (priority) {
@@ -123,7 +137,6 @@ export class ProjectTaskDisplayComponent implements OnChanges,OnInit {
   }
 
   
-
   showComment(taskId:number){
     this.showCommentsEnable=true;
     this.taskId=taskId;
@@ -131,6 +144,15 @@ export class ProjectTaskDisplayComponent implements OnChanges,OnInit {
 
   closeComment(){
     this.showCommentsEnable=false;
+  }
+
+  showDescription(task:Task){
+    this.task=task;
+    this.showDescriptionEnable=true
+  }
+
+  closeShowDescription(){
+    this.showDescriptionEnable=false;
   }
 
 }

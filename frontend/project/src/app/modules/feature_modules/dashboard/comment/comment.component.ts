@@ -40,11 +40,21 @@ export class CommentComponent implements OnChanges, OnInit {
       next: (data) => {
         this.comments = data;
         console.log(data);
-        console.log(data[0].commentTime);
+        // this.covetBufferToTime();
+        // console.log(data);
       }, error: (err) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
       }
     })
+  }
+
+    covetBufferToTime() {
+      this.comments.forEach(comment => {
+        comment.commentTime = new Date(comment.commentTime).toLocaleString();
+    });
+
+    console.log(this.comments);
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -135,6 +145,6 @@ export class CommentComponent implements OnChanges, OnInit {
       error: (error) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: `${error}` });
       }
-    });    
+    });
   }
 }

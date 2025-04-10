@@ -42,9 +42,10 @@ export class ProfileEditComponent implements OnChanges,OnInit {
     this.userService.updateUser(this.user.userId,this.userForm.value).subscribe({
       next:(data)=>{
         if(this.currUser?.userId===this.user.userId){
-          localStorage.setItem('user',JSON.stringify(data));
-          this.userService.currUserSubject.next(data);
+          localStorage.setItem('user',JSON.stringify(data)); //check if user is updating its own profile
+          this.userService.notifyLogIn(data);
         }
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: `Profile updated` });
         this.close();
       },error:(err)=>{
         this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });

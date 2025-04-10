@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +15,7 @@ import { RippleModule } from 'primeng/ripple';
 import { FormsModule } from '@angular/forms';
 import { TokenInterceptorService } from './interceptors/token-interceptor.service';
 import { HttpErrorInterceptorService } from './interceptors/http-error-interceptor.service';
+import { GlobalErrorHandlerService } from './modules/shared_modules/services/global-event-handler.service';
 
 
 
@@ -51,7 +52,10 @@ import { HttpErrorInterceptorService } from './interceptors/http-error-intercept
       useClass: HttpErrorInterceptorService,
       multi: true
     },
-    
+    { 
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandlerService,
+    },
     MessageService
   ],
   bootstrap: [AppComponent]

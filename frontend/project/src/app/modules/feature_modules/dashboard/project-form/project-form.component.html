@@ -8,6 +8,10 @@
             <span *ngIf="projectForm.get('projectName')!.invalid && projectForm.get('projectName')!.touched">
                 Project Name is required
             </span>
+
+            <span *ngIf="projectForm.get('projectName')!.errors?.['noSpaceAndNumber']" class="error-message">
+                Number and start Space is not allowed is Name.
+            </span>
             <br>
 
             <label for="description">Description:</label>
@@ -30,7 +34,7 @@
 
             <label for="user">Assigned User:</label>
             <select id="user" name="user" formControlName="userId">
-                <option *ngFor="let user of userList" [value]="user.userId"><b>{{user.userId}}.</b>{{ user.name }}
+                <option  *ngFor="let user of userList" [value]="user.userId"><b>{{user.userId}}.</b>{{ user.name }}
                     [{{user.role}}]</option>
             </select>
             <br>
@@ -38,6 +42,9 @@
             <label for="startDate">Start Date:</label>
             <input type="date" id="startDate" name="startDate" formControlName="startDate">
             <br>
+            <span *ngIf="projectForm.get('startDate')!.invalid && projectForm.get('startDate')!.touched">
+                date is required
+            </span>
 
             <label for="dueDate">Due Date:</label>
             <input type="date" id="dueDate" name="dueDate" formControlName="dueDate">
@@ -48,4 +55,4 @@
     </div>
 </div>
 
-<p-toast/>
+<p-toast />

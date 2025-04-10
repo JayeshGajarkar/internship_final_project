@@ -27,5 +27,10 @@ export class User {
   projects: Project[];
 
   @OneToMany(() => Comment, comment => comment.user,{cascade:true})
-  comments: Comment[];zz
+  comments: Comment[];
+
+  
+  @Column({ type: 'bit', default: true })
+  isActive: boolean;
+
 }

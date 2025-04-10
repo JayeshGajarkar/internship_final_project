@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { TaskServices } from '../services/taskServices';
-import { Task } from '../entities/task';
 import AppError from '../middlewares/appError';
 import { TaskDTO } from '../dto/task.dto';
 import { validate } from 'class-validator';

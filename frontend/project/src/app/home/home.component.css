@@ -1,11 +1,9 @@
-/* General Home Page Styling */
 .home-section {
     font-family: 'Arial', sans-serif;
     padding: 20px;
     background-color: #ecf0f1;
 }
 
-/* Hero Section */
 .hero {
     background-color: #3498db;
     color: white;
@@ -39,7 +37,6 @@
     background-color: #c0392b;
 }
 
-/* Features Section */
 .features {
     margin-bottom: 40px;
     text-align: center;
@@ -106,7 +103,6 @@
     background-color: #7f8c8d;
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
     .hero h1 {
         font-size: 2rem;

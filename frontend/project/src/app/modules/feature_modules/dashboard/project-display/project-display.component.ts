@@ -10,14 +10,12 @@ import { Tag } from 'primeng/tag';
 
 @Component({
   selector: 'app-project-display',
-  standalone:false,
+  standalone: false,
   templateUrl: './project-display.component.html',
   styleUrls: ['./project-display.component.css']
 })
 export class ProjectDisplayComponent implements OnInit {
-
-  @ViewChild('dt') dt: Table | undefined;
-  projectList!: Project[];
+  projectList: Project[]=[];
   addProjectEnable: boolean = false;
   editModeEnable: boolean = false;
   addTaskEnable: boolean = false;
@@ -39,7 +37,7 @@ export class ProjectDisplayComponent implements OnInit {
     private userService: AuthService,
     private router: Router,
     private messageService: MessageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userService.currUserSubject.subscribe({
@@ -59,6 +57,7 @@ export class ProjectDisplayComponent implements OnInit {
         next: (data) => {
           if (data) {
             this.projectList = data;
+            this.convertStringToDate();
             this.loading = false;
           }
         },
@@ -71,7 +70,8 @@ export class ProjectDisplayComponent implements OnInit {
         next: (data) => {
           if (data) {
             this.projectList = data;
-            this.loading=false;
+            this.convertStringToDate();
+            this.loading = false;
           }
         },
         error: (err) => {
@@ -84,7 +84,8 @@ export class ProjectDisplayComponent implements OnInit {
         next: (data) => {
           if (data) {
             this.projectList = data;
-            this.loading=false;
+            this.convertStringToDate();
+            this.loading = false;
           }
         },
         error: (err) => {
@@ -94,11 +95,19 @@ export class ProjectDisplayComponent implements OnInit {
     }
   }
 
-  addProject(){
+  private convertStringToDate(){
+    // Ensure dates are converted to Date objects
+    this.projectList.forEach(project => {
+        project.startDate = new Date(project.startDate);
+        project.dueDate = new Date(project.dueDate);
+    });
+  }
+
+  addProject() {
     this.addProjectEnable = true;
   }
 
-  closeAddProjectForm(){
+  closeAddProjectForm() {
     this.addProjectEnable = false;
     this.getAllProjects();
   }
@@ -116,11 +125,11 @@ export class ProjectDisplayComponent implements OnInit {
   deleteProject(projectId: number) {
     this.projectService.deleteProject(projectId).subscribe({
       next: (data) => {
-        this.messageService.add({severity: 'success',summary: 'Success',detail: `${data.message}`});
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: `${data.message}` });
         this.getAllProjects();
       },
       error: (err) => {
-        this.messageService.add({severity: 'error',summary: 'Error', detail: err});
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err });
       }
     });
   }
@@ -146,7 +155,7 @@ export class ProjectDisplayComponent implements OnInit {
     table.clear();
   }
 
-  getSeverity(status: string):Tag['severity'] {
+  getSeverity(status: string): Tag['severity'] { //Assign color by status
     switch (status) {
       case 'Not Started':
         return 'info';

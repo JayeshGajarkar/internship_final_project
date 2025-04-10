@@ -5,7 +5,7 @@ import { commentRepository } from "../repositories/commentRepository";
 import { CommentDTO } from "../dto/comment.dto";
 
 export class commentService {
-    static async addComment(taskId: number, userId: number, comment:CommentDTO): Promise<void> {
+    static async addComment(taskId: number, userId: number, commentDTO:CommentDTO): Promise<void> {
         const task = await taskRepository.findOne({where:{taskId},relations:['comments']});
         if (!task) {
             throw new Error('Task not found');
@@ -14,14 +14,18 @@ export class commentService {
         if (!user) {
             throw new Error('User not found');
         }
-        
-        (comment as Comment).task=task;
-        (comment as Comment).user=user
+
+        const comment=new Comment();
+        comment.commentText=commentDTO.commentText;
+        comment.commentTime=new Date().toTimeString().split(' ')[0];
+        comment.task=task;
+        comment.user=user;
+
         await commentRepository.save(comment);
 
     }
 
-    static async getCommentsByTaskId(taskId:number){
+    static async getCommentsByTaskId(taskId:number):Promise<Comment[]>{
         return await commentRepository.find({where : {task:{taskId}},relations:['user']});
     }
 

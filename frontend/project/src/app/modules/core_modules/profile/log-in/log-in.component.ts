@@ -5,8 +5,7 @@ import { User } from '../../../../models/user.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { spaceValidator } from '../../../shared_modules/validators/customeValidation';
-
-
+import { Subject, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-log-in',
@@ -21,9 +20,20 @@ export class LogInComponent {
     password: new FormControl('', [Validators.required, Validators.minLength(6),spaceValidator.validator])
   });
 
-  constructor(private authService:AuthService,private router:Router,private messageService:MessageService){}
+  constructor(private authService:AuthService,private router:Router,private messageService:MessageService){
+    //use throttling to prevent multiple api request
+    this.clickSubject.pipe(throttleTime(5000)).subscribe(()=>{
+      this.logInClick();
+    })
+  }
+
+  private clickSubject=new Subject<void>();
 
   onSubmit(){
+    this.clickSubject.next();
+  }
+
+  private logInClick(){
     this.authService.logIn(this.logInForm.value as User).subscribe({
       next:(data)=>{
         localStorage.setItem('token',data.token);

@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 let otp = {};
 
 export class OTPService {
-    static async sendOtp(email:string,str:string) {
+    static async sendOtp(email:string,str:string):Promise<void>{
 
         const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -34,8 +34,7 @@ export class OTPService {
             setTimeout(() => {
                 delete otp[email];
             }, 60 * 1000);
-
-            return otp;
+     
         } catch (error) {
             throw error;
         }

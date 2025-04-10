@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throttleTime } from 'rxjs';
 import { User } from '../../../models/user.model';
 
 @Injectable({
@@ -11,6 +11,7 @@ export class AuthService {
 
   currUser!:User | null;
   currUserSubject=new BehaviorSubject(this.currUser);
+  currUserSubject$=this.currUserSubject.asObservable();
 
   constructor(private http:HttpClient) {
     const user=localStorage.getItem('user');
@@ -65,5 +66,9 @@ export class AuthService {
 
   updateUser(userId:number,user:User):Observable<any>{
     return this.http.put(`http://localhost:3000/user/update/${userId}`,user)
+  }
+
+  deleteUser(userId:number):Observable<any>{
+    return this.http.delete(`http://localhost:3000/user/delete/${userId}`)
   }
 }

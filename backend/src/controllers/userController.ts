@@ -59,7 +59,6 @@ export class UserController {
             await UserService.verifyOtp(email, otp);
             res.status(200).json({ message: "Otp verified successfully" });
         } catch (error) {
-            console.log(error);
             next(new AppError(error.message, 500));
         }
     }
@@ -98,15 +97,28 @@ export class UserController {
         const userDTO = new UserDTO();
         Object.assign(userDTO, req.body);
         try {
+            //Validate the request data using DTO
             const errors = await validate(userDTO);
             if (errors.length > 0) {
                 const errorMessages = errors.map(err => Object.values(err.constraints)).join(', ');
                 throw new AppError(`Validation failed: ${errorMessages}`, 400);
             }
-            const { name, email, otp, role, password } = req.body;
+            const password= req.body.password;
             const hashedPassword = await bcrypt.hash(password, 10);
-            const user = await UserService.addUser(name, email, otp, role, hashedPassword);
+            userDTO.password=hashedPassword
+            const user = await UserService.addUser(userDTO);
             res.status(200).json({ message: "Sign Up successful", user: user });
+        } catch (error) {
+            console.log(error);
+            next(new AppError(error.message, 500));
+        }
+    }
+
+    static async deleteUser(req: Request, res: Response, next: NextFunction) {
+        const userId = parseInt(req.params.id);
+        try {
+            await UserService.softDeleteUser(userId);
+            res.status(200).json({ message: "User deleted successfully !"});
         } catch (error) {
             console.log(error);
             next(new AppError(error.message, 500));

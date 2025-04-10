@@ -12,7 +12,6 @@ export class ProjectController {
 
         try {
             const errors = await validate(projectDTO);
-            console.log(errors);
             if (errors.length > 0) {
                 const errorMessages = errors.map(err => Object.values(err.constraints)).join(', ');
                 throw new AppError(`Validation failed: ${errorMessages}`, 400);
@@ -84,8 +83,7 @@ export class ProjectController {
         const projectDTO = new ProjectDTO();
         Object.assign(projectDTO, req.body);
         try {
-            const errors = await validate(projectDTO);
-            console.log(errors);
+            const errors = await validate(projectDTO);  
             if (errors.length > 0) {
                 const errorMessages = errors.map(err => Object.values(err.constraints)).join(', ');
                 throw new AppError(`Validation failed: ${errorMessages}`, 400);

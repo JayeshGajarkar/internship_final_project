@@ -11,7 +11,7 @@ commentRouter.post('/add/:taskId/:userId',Authentication.authenticateJWT,Comment
 commentRouter.delete('/delete/:id',Authentication.authenticateJWT,CommentController.deleteComment);
 commentRouter.get('/get/:taskId',Authentication.authenticateJWT,CommentController.getCommentsByTaskId);
 
-
+//create configuration for storage 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads');
@@ -21,6 +21,7 @@ const storage = multer.diskStorage({
     }
 });
 
+//create instal of storage
 const upload = multer({ storage: storage });
 
 const dir = './uploads';
@@ -28,7 +29,11 @@ if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
 }
 
+
+//request object is populated with file object
 commentRouter.post('/upload/:taskid/:userId',upload.single('file'),Authentication.authenticateJWT,CommentController.addFile);
+
+
 commentRouter.get('/download/:filename',Authentication.authenticateJWT,CommentController.downloadFile)
 
 

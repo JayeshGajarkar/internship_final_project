@@ -7,8 +7,8 @@ export interface Project{
     status: "Not Started" | "Active" | "Completed";
     startDate: Date;
     dueDate: Date;
-    userId:number;
-    user:User;
+    userId?:number; //For the form value in the options
+    user?:User; //For assigned User
 }
 
 

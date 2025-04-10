@@ -96,6 +96,11 @@
     </p-table>
 </div>
 
+<ng-container *ngIf="projectList.length===0">
+    <h2 class="NotAvailable">No project Available For You !!</h2>
+</ng-container>
+
+<!-- Add rpoject container -->
 <ng-container *ngIf="addProjectEnable">
     <app-project-form (CloseProjectEditEvent)="closeAddProjectForm()"></app-project-form>
 </ng-container>
@@ -107,7 +112,7 @@
 
 <!-- Show Tasks -->
 <ng-container *ngIf="showTaskEnable">
-    <h1>Project Tasks</h1>
+    <h2>Tasks Of Project:{{projectId}} </h2>
     <app-project-task-display [projectId]="projectId"></app-project-task-display>
     <br>
     <button (click)="closeShowTask()" class="close-task-btn">&times;</button>

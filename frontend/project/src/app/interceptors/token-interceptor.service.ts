@@ -8,6 +8,7 @@ export class TokenInterceptorService implements HttpInterceptor {
 
     const token = localStorage.getItem('token');
 
+    //If token in the localstorage send cloned request else original request
     const clonedRequest = token ? req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

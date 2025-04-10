@@ -1,7 +1,6 @@
 import { CanActivateFn } from '@angular/router';
 import { AuthService } from '../modules/shared_modules/services/auth.service';
 import { inject } from '@angular/core';
-import { User } from '../models/user.model';
 
 
 export const adminGuard: CanActivateFn = (route, state) => {

@@ -40,4 +40,15 @@ export class UsersComponent {
     this.editprofileEnable=false;
     this.getUsers();
   }
+
+  deleteUser(userId:number){
+    this.userService.deleteUser(userId).subscribe({
+      next:(data)=>{
+        this.getUsers();
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: `${data.message}` });
+      },error:(err)=>{
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `${err}` });
+      }
+    })
+  }
 }

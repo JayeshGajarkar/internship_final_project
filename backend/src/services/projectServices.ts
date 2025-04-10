@@ -6,13 +6,21 @@ import { ProjectDTO } from "../dto/project.dto";
 
 export class ProjectService {
 
-    static async addProject(project:ProjectDTO, userId: number): Promise<void> {
+    static async addProject(projectDTO: ProjectDTO, userId: number): Promise<void> {
         const user = await userRepository.findOne({ where: { userId }, relations: ["projects"] });
         if (!user) {
             throw new Error('Project not found');
         }
 
-        (project as Project).user = user;
+
+        // create new Object Project to save in the database
+        const project = new Project();
+        project.projectName = projectDTO.projectName;
+        project.description = projectDTO.description;
+        project.startDate = projectDTO.startDate;
+        project.dueDate = projectDTO.dueDate;
+        project.user = user;
+
         const newProject = projectRepository.create(project);
         await projectRepository.save(newProject);
     }
@@ -40,7 +48,7 @@ export class ProjectService {
         }
     }
 
-    static async updateProject(projectId: number, userId: number, projectData:ProjectDTO): Promise<void> {
+    static async updateProject(projectId: number, userId: number, projectDTO: ProjectDTO): Promise<void> {
         const project = await projectRepository.findOne({ where: { projectId }, relations: ["tasks"] });
         if (!project) {
             throw new Error('Project not found');
@@ -49,8 +57,13 @@ export class ProjectService {
         if (!user) {
             throw new Error('user not found');
         }
+
+        project.projectName = projectDTO.projectName;
+        project.description = projectDTO.description;
+        project.startDate = projectDTO.startDate;
+        project.dueDate = projectDTO.dueDate;
         project.user = user;
-        projectRepository.merge(project, projectData);
+
         await projectRepository.save(project);
     }
 
@@ -71,7 +84,7 @@ export class ProjectService {
     static async getAllProjectsByEmployee(userId: number) {
         const tasks = await taskRepository.find({
             where: { user: { userId: userId } },
-            relations: ['project','project.user']
+            relations: ['project', 'project.user']
         });
 
         if (tasks.length === 0) {
@@ -80,7 +93,7 @@ export class ProjectService {
 
         const projects = tasks.map(task => task.project);
         const uniqueProjects = Array.from(new Set(projects.map(p => p.projectId)))
-        .map(id => projects.find(p => p.projectId === id));
+            .map(id => projects.find(p => p.projectId === id));
 
         return uniqueProjects;
     }

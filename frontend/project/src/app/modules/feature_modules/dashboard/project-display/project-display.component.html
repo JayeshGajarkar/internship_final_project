@@ -1,0 +1,121 @@
+<div *ngIf="!showTaskEnable" class="card">
+    <p-table #dt [value]="projectList" dataKey="projectId" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading" [paginator]="true"
+        [globalFilterFields]="['projectName', 'description', 'status', 'user.name']"
+        [tableStyle]="{ 'min-width': '75rem' }">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-iconField iconPosition="left" class="ml-auto">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="GlobalSearch" />`
+                    <p-button icon="pi pi-plus" label="Add Project" (click)="addProject()"
+                        class="ml-2" [disabled]="currUser?.role !== 'Admin'"></p-button>
+                </p-iconField>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Project Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Start Date</th>
+                <th>Due Date</th>
+                <th>Assigned User</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter type="text" field="projectName" placeholder="Search by project name"
+                        ariaLabel="Filter Project Name" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="description" placeholder="Search by description"
+                        ariaLabel="Filter Description" />
+                </th>
+                <th>
+                    <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)"
+                                placeholder="Select One" [showClear]="true" >
+                                <ng-template let-option pTemplate="item">
+                                    <p-tag [value]="option.value" [severity]="getSeverity(option.label)" />
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="startDate" placeholder="Filter by start date"
+                        ariaLabel="Filter Start Date" />
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="dueDate" placeholder="Filter by due date"
+                        ariaLabel="Filter Due Date" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="user.name" placeholder="Search by user"
+                        ariaLabel="Filter User" />
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-project>
+            <tr>
+                <td>{{ project.projectName }}</td>
+                <td>{{ project.description }}</td>
+                <td>
+                    <p-tag [value]="project.status" [severity]="getSeverity(project.status)" />
+                </td>
+                <td>{{ project.startDate | date: 'shortDate' }}</td>
+                <td>{{ project.dueDate | date: 'shortDate' }}</td>
+                <td>{{ project.user.name}} | {{project.user.email}}</td>
+                <td>
+                    <button (click)="showTasks(project.projectId)" class="task-btn">
+                        <i class="pi pi-list"></i>
+                    </button>
+                    <button *ngIf="currUser?.role==='Admin'" (click)="editProject(project)" class="edit-btn">
+                        <i class="pi pi-pencil"></i> 
+                    </button>
+                    <button (click)="viewKanbanBoard(project.projectId)">
+                        <i class="pi pi-th-large"></i>
+                    </button>
+                    <button *ngIf="currUser?.role==='Admin'" (click)="deleteProject(project.projectId)" class="delete-btn">
+                        <i class="pi pi-trash"></i> 
+                    </button>                    
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">No projects found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<ng-container *ngIf="projectList.length===0">
+    <h2 class="NotAvailable">No project Available For You !!</h2>
+</ng-container>
+
+<!-- Add project container -->
+<ng-container *ngIf="addProjectEnable">
+    <app-project-form (CloseProjectEditEvent)="closeAddProjectForm($event)"></app-project-form>
+</ng-container>
+
+<!-- Edit Project Form -->
+<ng-container *ngIf="editModeEnable">
+    <app-project-form [Project]="project" (CloseProjectEditEvent)="closeEditForm($event)"></app-project-form>
+</ng-container>
+
+<!-- Show Tasks -->
+<ng-container *ngIf="showTaskEnable">
+    <h2>Tasks Of Project:{{projectId}} </h2>
+    <app-project-task-display [projectId]="projectId"></app-project-task-display>
+    <br>
+    <button (click)="closeShowTask()" class="close-task-btn">&times;</button>
+</ng-container>
+
+<p-toast></p-toast>

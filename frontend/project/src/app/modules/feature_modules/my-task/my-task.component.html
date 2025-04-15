@@ -1,0 +1,38 @@
+<div class="task-container">
+    <h2>My Tasks</h2>
+    <div class="task-grid">
+        <div *ngFor="let task of taskList" class="task-card" [ngClass]="getStatusClass(task.status)" (click)="editTask(task)">
+            <h3>{{ task.title }}</h3>
+            <h2><strong>Project </strong>{{task.project?.projectId}} : {{ task.project?.projectName }}</h2>
+            <p><strong>Description :</strong> {{ task.description }}</p>
+            <p><strong>Priority :</strong> {{ task.priority }}</p>
+            <p><strong>Status :</strong>
+                <select *ngIf="task.isEditable" class="status-dropdown" [(ngModel)]="task.status">
+                    <option value="To do">To do</option>
+                    <option value="In progress">In progress</option>
+                    <option value="Done">Done</option>
+                </select>
+                <span *ngIf="!task.isEditable"> {{task.status}}</span>
+            </p>
+            <p><strong>Start Date :</strong> {{ task.startDate }}</p>
+            <p><strong>Due Date :</strong> {{ task.dueDate }}</p>
+
+            <!-- <button *ngIf="!task.isEditable" (click)="editTask(task)">Change status</button> -->
+            <button *ngIf="task.isEditable" (click)="updateTaskStatus(task,task.taskId)">Save</button>
+            <button (click)="showComment(task.taskId)">Comment</button>
+        </div>
+    </div>
+
+    <div class="no">
+        <h2 *ngIf="taskList?.length===0">
+            No Task Available for You !!
+        </h2>
+    </div>
+</div>
+
+<!-- show comment container -->
+<div *ngIf="showCommentsEnable">
+    <app-comment (closeCommentsEvent)="closeComment()" [taskId]="taskId"></app-comment>
+</div>
+
+<p-toast></p-toast>

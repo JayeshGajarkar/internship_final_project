@@ -1,0 +1,52 @@
+<div class="overlay"></div>
+<div class="edit-container">
+    <button class="close" (click)="close(null)">&times;</button>
+    <div class="edit-form">
+        <h2 class="form-title">Edit Profile</h2>
+        <h3>UsesId:{{user.userId}}</h3>
+        <form [formGroup]="userForm" (ngSubmit)="onSave()">
+            <!-- Name Field -->
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" formControlName="name" placeholder="Enter your full name" />
+                <div *ngIf="userForm.get('name')!.invalid && userForm.get('name')!.touched" class="error-message">
+                    Name is required.
+                </div>
+                <div *ngIf="userForm.get('name')!.errors?.['noSpaceAndNumber']" class="error-message">
+                    Name can not Start with space or contain number.
+                </div>
+            </div>
+    
+            <!-- Email Field -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" formControlName="email" placeholder="Enter your email" />
+                <div *ngIf="userForm.get('email')!.invalid && userForm.get('email')!.touched" class="error-message">
+                    Please enter a valid email.
+                </div>
+                <div *ngIf="userForm.get('email')!.errors?.['noSpaceAllowed']" class="error-message">
+                    Spaces are not allowed in the email.
+                </div>
+            </div>
+    
+            <div *ngIf="currUser?.role==='Admin'" class="form-group">
+                <label for="role">Role</label>
+                <select id="role" formControlName="role">
+                    <option value="Admin">Admin</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Employee">Employee</option>
+                </select>
+                <div *ngIf="userForm.get('role')!.invalid && userForm.get('role')!.touched" class="error-message">
+                    Role is required.
+                </div>
+            </div>
+    
+            <!-- Save Button -->
+            <div class="form-actions">
+                <button type="submit" [disabled]="userForm.invalid" class="submit-btn">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p-toast></p-toast>

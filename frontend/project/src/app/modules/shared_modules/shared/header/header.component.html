@@ -1,0 +1,20 @@
+<header>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a routerLink="/home"> Home</a>
+
+            <!-- Conditional Links based on Login Status -->
+            <ng-container *ngIf="!currUser">
+                <a routerLink="/signUp">Sign Up</a>
+                <a routerLink="/logIn">Log In</a>
+            </ng-container>
+            <ng-container *ngIf="currUser">
+                <a routerLink="/dashboard">Dashboard</a>
+                <a *ngIf="currUser?.role==='Employee'"  routerLink="/dashboard/myTask">MyTask</a>
+                <a *ngIf="currUser?.role==='Admin'" routerLink="/employee">Employee</a>
+                <a routerLink="/profile">Profile</a>
+                <button (click)="logOut()">Log Out</button>
+            </ng-container>
+        </div>
+    </nav>
+</header>

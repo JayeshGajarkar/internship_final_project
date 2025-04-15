@@ -1,0 +1,58 @@
+<div class="modal">
+    <div class="modal-content">
+        <span class="close" (click)="close(null)">&times;</span>
+        <h2 class="form-title">{{ Project ? 'Edit Project' : 'Create Project' }}</h2>
+        <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+            <label for="projectName">Project Name:</label>
+            <input type="text" id="projectName" name="projectName" formControlName="projectName">
+            <span *ngIf="projectForm.get('projectName')!.invalid && projectForm.get('projectName')!.touched">
+                Project Name is required
+            </span>
+
+            <span *ngIf="projectForm.get('projectName')!.errors?.['noSpaceAndNumber']" class="error-message">
+                Number and start Space is not allowed is Name.
+            </span>
+            <br>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" formControlName="description"></textarea>
+            <span *ngIf="projectForm.get('description')!.invalid && projectForm.get('description')!.touched">
+                Description is required
+            </span>
+            <br>
+
+            <label for="status">Status:</label>
+            <select id="status" name="status" formControlName="status">
+                <option value="Not Started">Not Started</option>
+                <option value="Active">Active</option>
+                <option value="Completed">Completed</option>
+            </select>
+            <span *ngIf="projectForm.get('status')!.invalid && projectForm.get('status')!.touched">
+                Status is required
+            </span>
+            <br>
+
+            <label for="user">Assigned User:</label>
+            <select id="user" name="user" formControlName="userId">
+                <option  *ngFor="let user of userList" [value]="user.userId"><b>{{user.userId}}.</b>{{ user.name }}
+                    [{{user.role}}]</option>
+            </select>
+            <br>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate" formControlName="startDate">
+            <br>
+            <span *ngIf="projectForm.get('startDate')!.invalid && projectForm.get('startDate')!.touched">
+                date is required
+            </span>
+
+            <label for="dueDate">Due Date:</label>
+            <input type="date" id="dueDate" name="dueDate" formControlName="dueDate">
+            <br>
+
+            <button type="submit" [disabled]="projectForm.invalid">Submit</button>
+        </form>
+    </div>
+</div>
+
+<p-toast />

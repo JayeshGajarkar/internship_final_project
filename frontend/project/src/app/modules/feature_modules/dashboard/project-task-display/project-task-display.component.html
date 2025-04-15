@@ -1,0 +1,139 @@
+<div class="task-container">
+    <p-table #dt [value]="taskList" dataKey="taskId" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading"
+        [paginator]="true" [globalFilterFields]="['title', 'description', 'priority', 'status', 'user.name']"
+        [tableStyle]="{ 'width': '100%' }">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-iconField iconPosition="left" class="ml-auto">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Global Search" />
+                    <p-button icon="pi pi-plus" label="Add Task " (click)="addTask()" class="ml-2"
+                        [disabled]="currUser?.role==='Employee'"></p-button>
+                </p-iconField>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Task Name</th>
+                <!-- <th>Description</th> -->
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Start Date</th>
+                <th>Due Date</th>
+                <th>Assigned User</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter type="text" field="title" placeholder="Search by Title" ariaLabel="Filter Title" />
+                </th>
+                <!-- <th>
+                    <p-columnFilter type="text" field="description" placeholder="Search by Description"
+                        ariaLabel="Filter Description" />
+                </th> -->
+                <th>
+                    <p-columnFilter field="priority" matchMode="equals" [showMenu]="false">
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-dropdown [ngModel]="value" [options]="prioroties" (onChange)="filter($event.value)"
+                                placeholder="Select Priority" [showClear]="true">
+                                <ng-template let-option pTemplate="item">
+                                    <p-tag [value]="option.value" [severity]="getPrioritySeverity(option.label)" />
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)"
+                                placeholder="Select Status" [showClear]="true">
+                                <ng-template let-option pTemplate="item">
+                                    <p-tag [value]="option.value" [severity]="getStatusSeverity(option.label)" />
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="startDate" placeholder="Filter by Start Date"
+                        ariaLabel="Filter Start Date" />
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="dueDate" placeholder="Filter by Due Date"
+                        ariaLabel="Filter Due Date" />
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="user.name" placeholder="Search by Employee"
+                        ariaLabel="Filter Employee" />
+                </th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-task>
+            <tr>
+                <td>{{ task.title }}</td>
+                <!-- <td>{{ task.description }}</td> -->
+                <td>
+                    <p-tag [value]="task.priority" [severity]="getPrioritySeverity(task.priority)" />
+                </td>
+                <td><p-tag [value]="task.status" [severity]="getStatusSeverity(task.status)" /></td>
+                <td>{{ task.startDate | date: 'shortDate' }}</td>
+                <td>{{ task.dueDate | date: 'shortDate' }}</td>
+                <td>{{ task.user?.name }} | {{ task.user?.email }}</td>
+                <td>
+                    <div style="display: inline-block;">
+                        <button *ngIf="currUser?.role==='Manager' || currUser?.role==='Admin'" (click)="editTask(task)"
+                            class="edit-btn">
+                            <i class="pi pi-pencil"></i>
+                        </button>
+                        <button *ngIf="currUser?.role==='Manager' || currUser?.role==='Admin'"
+                            (click)="deleteTask(task.taskId)" class="delete-btn">
+                            <i class="pi pi-trash"></i>
+                        </button>
+                        <button *ngIf="currUser?.role==='Manager' || 'Admin' || currUser?.userId===task.user?.userId"
+                            class="comment-btn" (click)="showComment(task.taskId)">
+                            <i class="pi pi-comments"></i>
+                        </button>
+                        <button class="view-btn" (click)="showDescription(task)">
+                            <i class="pi pi-eye"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">No tasks found for this project.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- Add Task button -->
+<ng-container *ngIf="addTaskEnable">
+    <app-project-task-form (closeTaskFormEvent)="closeAddTask($event)" [projectId]="projectId"></app-project-task-form>
+</ng-container>
+
+<!-- Edit task container -->
+<ng-container *ngIf="editTaskEnable">
+    <app-project-task-form (closeTaskFormEvent)="closeEditTask($event)" [task]="task"></app-project-task-form>
+</ng-container>
+
+<!-- show comment container -->
+<ng-container *ngIf="showCommentsEnable">
+    <app-comment (closeCommentsEvent)="closeComment()" [taskId]="taskId"></app-comment>
+</ng-container>
+
+<!-- show description -->
+<div class="overlay" *ngIf="showDescriptionEnable">
+    <div class="container">
+        {{task.description}}
+        <button (click)="closeShowDescription()">&times;</button>
+    </div>
+</div>
+
+<p-toast />

@@ -1,0 +1,45 @@
+<h1>KanbanBoard For Project:{{projectId}}</h1>
+<button class="close-button" (click)="close()">Close</button>
+<button *ngIf="taskList?.length!==0" class="viewChart" (click)="viewChart()">View chart</button>
+
+<h2 class="not" *ngIf="taskList?.length===0">
+    Task NotAvailable For This Project
+</h2>
+
+<div *ngIf="taskList?.length!==0" class="kanban-board">
+    <div class="kanban-column">
+        <h2>To Do</h2>
+        <div class="kanban-task to-do" *ngFor="let task of taskList | filterByStatus:'To do'">
+            <h3>{{ task.title }}</h3>
+            <p><strong>Priority:</strong> {{ task.priority }}</p>
+            <p><strong>Start Date:</strong> {{ task.startDate | date }}</p>
+            <p><strong>Due Date:</strong> {{ task.dueDate | date }}</p>
+            <p><strong>Assigned To:</strong> {{ task.user?.name }} | {{task.user?.email}}</p>
+        </div>
+    </div>
+    <div class="kanban-column">
+        <h2>In Progress</h2>
+        <div class="kanban-task in-progress" *ngFor="let task of taskList | filterByStatus:'In progress'">
+            <h3>{{ task.title }}</h3>
+            <p><strong>Priority:</strong> {{ task.priority }}</p>
+            <p><strong>Start Date:</strong> {{ task.startDate | date }}</p>
+            <p><strong>Due Date:</strong> {{ task.dueDate | date }}</p>
+            <p><strong>Assigned To:</strong> {{ task.user?.name }} | {{task.user?.email}}</p>
+        </div>
+    </div>
+    <div class="kanban-column">
+        <h2>Done</h2>
+        <div class="kanban-task done" *ngFor="let task of taskList | filterByStatus:'Done'">
+            <h3>{{ task.title }}</h3>
+            <p><strong>Priority:</strong> {{ task.priority }}</p>
+            <p><strong>Start Date:</strong> {{ task.startDate | date }}</p>
+            <p><strong>Due Date:</strong> {{ task.dueDate | date }}</p>
+            <p><strong>Assigned To:</strong> {{ task.user?.name }} | {{task.user?.email}}</p>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="viewChartEnable">
+    <app-charts [taskList]="taskList" (closeChartsEvent)="closeCharts()"></app-charts>
+</div>
+ 

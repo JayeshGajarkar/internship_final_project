@@ -1,0 +1,19 @@
+<div class="popup">
+    <div class="popup-content">
+        <h2>Project Overview</h2>
+        <span class="close" (click)="closeCharts()">&times;</span>
+        <div id="gantt_here"></div>
+        <h3>Task Progress</h3>
+        <p-chart type="bar" [data]="barChartData" [options]="barChartOptions"></p-chart>
+        <div class="pie-charts">
+            <div>
+                <h3>Tasks by Status</h3>
+                <p-chart type="pie" [data]="pieChartByStatusData" [options]="pieChartByStatusOptions"></p-chart>
+            </div>
+            <div>
+                <h3>Tasks by Priority</h3>
+                <p-chart type="pie" [data]="pieChartByPriorityData" [options]="pieChartByPriorityOptions"></p-chart>
+            </div>
+        </div>
+    </div>
+</div>
